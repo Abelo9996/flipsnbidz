@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flips & Bidz - Your Trusted Liquidation Auction Partner</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Live Update Banner -->
+    <a href="https://flipsandbidz.hibid.com/" target="_blank" class="announcement-banner-link" id="announcementBanner">
+        <div class="announcement-banner">
+            <div class="announcement-content">
+                <span class="live-indicator">
+                    <span class="live-dot"></span>
+                    <span class="live-text">LIVE</span>
+                </span>
+                <p class="announcement-message">
+                    <strong>We are live!</strong> Our auction lots start to close on Sunday at 6PM Pacific Time. Click to view!
+                </p>
+                <button class="banner-close" id="closeBanner" aria-label="Close banner" onclick="event.preventDefault(); event.stopPropagation();">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </a>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <div class="logo">
+                        <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 1rem;">
+                            <img src="images/flipsnbidz.webp" alt="Flips & Bidz Logo" class="logo-image">
+                            <div class="logo-text">
+                                <h1>Flips & Bidz</h1>
+                                <p class="tagline">Liquidation Auctions</p>
+                            </div>
+                        </a>
+                    </div>
+                    <ul class="nav-menu">
+                        <li><a href="#home" class="nav-link active">Home</a></li>
+                        <li><a href="https://flipsandbidz.hibid.com/" target="_blank" class="nav-link">Latest Auction</a></li>
+                        <li><a href="https://flipsandbidz.hibid.com/lots" target="_blank" class="nav-link">Inventory</a></li>
+                        <li><a href="https://flipsandbidz.hibid.com/auctions/past" target="_blank" class="nav-link">Past Auctions</a></li>
+                        <li><a href="faq.html" class="nav-link">FAQ</a></li>
+                        <li><a href="appointment.html" class="nav-link">Schedule Appointment</a></li>
+                        <li><a href="#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-overlay"></div>
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title animate-on-scroll fade-in-down animate-slow">Find Amazing Deals at Our Online Auctions</h2>
+                <p class="hero-subtitle animate-on-scroll fade-in-up stagger-2">Quality liquidation items at unbeatable prices. Bid now on HiBid!</p>
+                <div class="hero-buttons animate-on-scroll fade-in-up stagger-3">
+                    <a href="https://flipsandbidz.hibid.com/auctions" target="_blank" class="btn btn-primary">Current Auction</a>
+                    <a href="https://offerup.com/p/158714750" target="_blank" class="btn btn-secondary">Buy Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="features-grid">
+                <div class="feature-card animate-on-scroll scale-in stagger-1">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Quality Items</h3>
+                    <p>Carefully curated liquidation merchandise from trusted sources</p>
+                </div>
+                <div class="feature-card animate-on-scroll scale-in stagger-2">
+                    <div class="feature-icon">💰</div>
+                    <h3>Great Prices</h3>
+                    <p>Competitive bidding ensures you get the best value for your money</p>
+                </div>
+                <div class="feature-card animate-on-scroll scale-in stagger-3">
+                    <div class="feature-icon">📦</div>
+                    <h3>Easy Pickup</h3>
+                    <p>Convenient pickup times Wednesday-Monday, 10 AM - 5 PM</p>
+                </div>
+                <div class="feature-card animate-on-scroll scale-in stagger-4">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Trusted Service</h3>
+                    <p>Professional team dedicated to your satisfaction</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section id="how-it-works" class="how-it-works">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll fade-in-up">How It Works</h2>
+            <div class="steps-grid">
+                <div class="step animate-on-scroll fade-in-left stagger-1">
+                    <div class="step-number">1</div>
+                    <h3>Register & Browse</h3>
+                    <p>Create your account on HiBid and browse our current auctions. Visit us in person to inspect items before bidding.</p>
+                </div>
+                <div class="step animate-on-scroll fade-in-up stagger-2">
+                    <div class="step-number">2</div>
+                    <h3>Place Your Bids</h3>
+                    <p>Bid on items you want. Watch auctions live and compete with other bidders for the best deals.</p>
+                </div>
+                <div class="step animate-on-scroll fade-in-right stagger-3">
+                    <div class="step-number">3</div>
+                    <h3>Win & Pay</h3>
+                    <p>If you win, your registered card will be charged automatically. Includes buyer's premium, processing fee, and sales tax.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Schedule Pickup</h3>
+                    <p>Text us at 626-944-3190 or visit our website to schedule your pickup within 7 days of auction close.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown Timer Section -->
+    <section class="countdown-section">
+        <div class="container">
+            <div class="countdown-wrapper">
+                <div class="countdown-text">
+                    <h2>Hurry while you can!</h2>
+                    <p>Our latest auction will end very soon. Make sure to grab your desired items while you can!</p>
+                </div>
+                <div class="countdown-timer">
+                    <div class="timer-label">Auction Ends In:</div>
+                    <div class="timer-display">
+                        <div class="timer-unit">
+                            <div class="timer-value" id="days">0</div>
+                            <div class="timer-text">Days</div>
+                        </div>
+                        <div class="timer-separator">:</div>
+                        <div class="timer-unit">
+                            <div class="timer-value" id="hours">0</div>
+                            <div class="timer-text">Hours</div>
+                        </div>
+                        <div class="timer-separator">:</div>
+                        <div class="timer-unit">
+                            <div class="timer-value" id="minutes">0</div>
+                            <div class="timer-text">Minutes</div>
+                        </div>
+                        <div class="timer-separator">:</div>
+                        <div class="timer-unit">
+                            <div class="timer-value" id="seconds">0</div>
+                            <div class="timer-text">Seconds</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="countdown-cta">
+                    <a href="https://flipsandbidz.hibid.com/" target="_blank" class="btn btn-large btn-primary pulse-btn">Bid Now!</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Important Info Section -->
+    <section class="important-info">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll fade-in-up">Important Information</h2>
+            <div class="info-grid">
+                <div class="info-card animate-on-scroll fade-in-left stagger-1">
+                    <h3>⏰ Pickup Requirements</h3>
+                    <ul>
+                        <li><strong>MUST schedule pickup</strong> before arrival</li>
+                        <li>Text: <a href="tel:6269443190">626-944-3190</a></li>
+                        <li>Visit: <a href="https://flipsandbidz.com">flipsandbidz.com</a></li>
+                        <li><strong>7-day pickup window</strong> from auction close</li>
+                        <li>Hours: Wed-Mon, 10 AM - 5 PM</li>
+                        <li>No shipping available</li>
+                    </ul>
+                </div>
+                <div class="info-card animate-on-scroll fade-in-up stagger-2">
+                    <h3>💳 Payment Details</h3>
+                    <ul>
+                        <li>Credit cards accepted</li>
+                        <li>Cash apps (with approval)</li>
+                        <li><strong>12.50%</strong> buyer's premium</li>
+                        <li><strong>3%</strong> processing fee</li>
+                        <li><strong>9.5%</strong> sales tax</li>
+                        <li>Auto-charge at auction end</li>
+                    </ul>
+                </div>
+                <div class="info-card animate-on-scroll fade-in-right stagger-3">
+                    <h3>⚠️ Important Notices</h3>
+                    <ul>
+                        <li>All items sold <strong>"as is, where is"</strong></li>
+                        <li>No warranties or guarantees</li>
+                        <li>Inspect items before bidding</li>
+                        <li>7-day return window for incorrect listings</li>
+                        <li>Buyer assumes all risks</li>
+                        <li>We reserve the right to refuse service</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Policies Section -->
+    <section id="policies" class="policies">
+        <div class="container">
+            <h2 class="section-title">Our Policies</h2>
+            <div class="policy-accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Pickup Policy</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p><strong>Please schedule your pickup before arrival!</strong></p>
+                        <p>All items must be picked up within 7 days of the auction closing or they will be forfeited. Pickups are available Wednesday through Monday from 10 a.m. to 5 p.m. Items not claimed within this time frame will be forfeited with no refunds. We will not hold any items beyond 7 days.</p>
+                        <p>Buyers are responsible for the removal of purchased items. When requesting assistance with loading, you acknowledge that Flips and Bidz is not responsible for any injuries, damages, or accidents resulting from loading, securing, or transportation of purchased items during or after the pickup process.</p>
+                        <p><strong>We do not provide shipping.</strong></p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Payment Policy</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>Accepted payment methods are credit cards. Payments through cash apps are accepted upon approval and contact.</p>
+                        <p><strong>Fees:</strong></p>
+                        <ul>
+                            <li>12.50% buyer's premium</li>
+                            <li>3% processing fee</li>
+                            <li>9.5% sales tax</li>
+                        </ul>
+                        <p>All payments must be made in full before any items are removed. The card on file will be charged at the end of the auction. Please ensure you register with the card you intend to use. A $1 temporary charge will be applied during registration to verify your card, which will be refunded.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Warranties & Guarantees</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>All items are sold "as is, where is," with no warranties or guarantees, express or implied, including but not limited to merchantability, fitness for a particular purpose, or non-infringement.</p>
+                        <p>Flips and Bidz makes no representations or warranties regarding the accuracy, completeness, or reliability of item descriptions, images, or condition reports.</p>
+                        <p><strong>We invite all bidders to visit Wednesday through Monday between 10:00 a.m. and 5:00 p.m. to inspect items in person before bidding.</strong> You may also contact us for additional condition information about specific lots before placing a bid.</p>
+                        <p>Buyers assume all risks associated with the purchase, use, transport, and resale of items. Once an item is purchased, the buyer waives any claims against Flips and Bidz regarding its condition, usability, or value.</p>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header">
+                        <span>Return Policy</span>
+                        <span class="accordion-icon">+</span>
+                    </button>
+                    <div class="accordion-content">
+                        <p>We are committed to accuracy in our listings and transparency in item conditions.</p>
+                        <p>If an item is incorrectly listed, you are eligible for a full refund, provided you notify us within 7 days of pickup. If the item's condition differs from what is stated in the listing title or description and is not correctly represented in the provided images, we will issue a full refund upon return.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contact Us</h2>
+            <p class="section-subtitle">Drop us a line!</p>
+            
+            <div class="contact-main-grid">
+                <!-- Contact Form -->
+                <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
+                        <h3>Send Us a Message</h3>
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email*" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" rows="5" placeholder="Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Send</button>
+                        <p class="recaptcha-notice">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.</p>
+                    </form>
+                </div>
+
+                <!-- Visit Us Section -->
+                <div class="visit-us-section">
+                    <h3>Better yet, see us in person!</h3>
+                    <p class="visit-subtitle">We love our customers, so feel free to visit during normal business hours.</p>
+                    
+                    <div class="location-info">
+                        <h4>Flips and Bidz</h4>
+                        <p class="address">
+                            <span class="icon">📍</span>
+                            15300 Valley View Avenue<br>
+                            La Mirada, California 90638<br>
+                            United States
+                        </p>
+                        <p class="email-contact">
+                            <span class="icon">✉️</span>
+                            <a href="mailto:flipsnbidz@gmail.com">flipsnbidz@gmail.com</a>
+                        </p>
+                        <p class="phone-contact">
+                            <span class="icon">📱</span>
+                            <a href="tel:6269443190">(626) 944-3190</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Google Maps (Two Column Layout) -->
+            <div class="contact-map-grid">
+                <!-- Location Summary -->
+                <div class="map-info-card">
+                    <h3>📍 Find Us Here</h3>
+                    <p class="map-description">Visit our warehouse to inspect items before bidding or pick up your auction wins!</p>
+                    <div class="quick-info">
+                        <div class="info-item">
+                            <strong>Address:</strong>
+                            <p>15300 Valley View Avenue<br>La Mirada, CA 90638</p>
+                        </div>
+                        <div class="info-item">
+                            <strong>Open Hours:</strong>
+                            <p>Wednesday - Monday<br>10:00 AM - 5:00 PM</p>
+                        </div>
+                        <div class="info-item">
+                            <strong>Note:</strong>
+                            <p>Please schedule your pickup before visiting. Text us at <a href="tel:6269443190">(626) 944-3190</a></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Map -->
+                <div class="map-container-inline">
+                    <div class="map-wrapper">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3309.8684405589945!2d-118.00399842346743!3d33.93991402250584!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2d0f4f4f4f4f5%3A0x1234567890abcdef!2s15300%20Valley%20View%20Ave%2C%20La%20Mirada%2C%20CA%2090638!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+                            style="border:0;" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade"
+                            title="Flips & Bidz Location">
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Flips & Bidz</h3>
+                    <p>Your trusted partner for quality liquidation auctions.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/flips_n_bidz/" target="_blank" class="social-icon" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                            </svg>
+                        </a>
+                        <a href="https://offerup.com/p/158714750" target="_blank" class="social-icon" aria-label="OfferUp">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2.4c5.302 0 9.6 4.298 9.6 9.6s-4.298 9.6-9.6 9.6-9.6-4.298-9.6-9.6S6.698 2.4 12 2.4zm0 3.6c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6zm0 2.4c1.988 0 3.6 1.612 3.6 3.6s-1.612 3.6-3.6 3.6-3.6-1.612-3.6-3.6S10.012 8.4 12 8.4z"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="https://flipsandbidz.hibid.com/" target="_blank">Latest Auction</a></li>
+                        <li><a href="https://flipsandbidz.hibid.com/lots" target="_blank">Inventory</a></li>
+                        <li><a href="https://flipsandbidz.hibid.com/auctions/past" target="_blank">Past Auctions</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="terms.html">Terms & Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>📱 <a href="tel:6269443190">626-944-3190</a></li>
+                        <li>📧 <a href="mailto:flipsnbidz@gmail.com">flipsnbidz@gmail.com</a></li>
+                        <li>🌐 <a href="https://flipsandbidz.com">flipsandbidz.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Flips & Bidz. All rights reserved. We reserve the right to refuse service to anyone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
