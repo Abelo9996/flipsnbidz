@@ -123,26 +123,53 @@ accordionHeaders.forEach(header => {
     });
 });
 
+// Initialize EmailJS
+emailjs.init('aTiA22BTw9ab_DQDm'); // Your EmailJS public key
+
 // Contact Form Submission
 const contactForm = document.getElementById('contactForm');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', (e) => {
+    contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        
+        const submitBtn = contactForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        
+        // Show loading state
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
         
         const formData = {
             name: document.getElementById('name').value,
             email: document.getElementById('email').value,
             phone: document.getElementById('phone').value,
-            message: document.getElementById('message').value
+            message: document.getElementById('message').value,
+            to_email: 'flipsnbidz@gmail.com'
         };
 
-        // Here you would typically send the form data to a server
-        // For now, we'll just show an alert
-        showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
-        
-        // Reset form
-        contactForm.reset();
+        try {
+            // Send email using EmailJS
+            await emailjs.send(
+                'service_exdu8rc',      // Your service ID
+                'template_contact',     // Contact template ID (you'll create this)
+                formData
+            );
+            
+            console.log('✅ Contact form email sent successfully');
+            showNotification('Thank you for your message! We\'ll get back to you soon.', 'success');
+            
+            // Reset form
+            contactForm.reset();
+            
+        } catch (error) {
+            console.error('❌ Error sending contact form email:', error);
+            showNotification('Failed to send message. Please email us directly at flipsnbidz@gmail.com', 'error');
+        } finally {
+            // Reset button
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
     });
 }
 
