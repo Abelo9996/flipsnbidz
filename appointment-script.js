@@ -303,9 +303,59 @@ async function handleFormSubmit(e) {
     }
 }
 
+// Helper function to create Google Calendar link
+function createGoogleCalendarLink(formData) {
+    // Parse the date and time
+    const appointmentDate = new Date(formData.date);
+    const [timeStr, period] = formData.time.split(' ');
+    const [hours, minutes] = timeStr.split(':');
+    let hour = parseInt(hours);
+    
+    // Convert to 24-hour format
+    if (period === 'PM' && hour !== 12) hour += 12;
+    if (period === 'AM' && hour === 12) hour = 0;
+    
+    // Set the time
+    appointmentDate.setHours(hour, parseInt(minutes), 0, 0);
+    
+    // Create end time (15 minutes later)
+    const endDate = new Date(appointmentDate);
+    endDate.setMinutes(endDate.getMinutes() + 15);
+    
+    // Format dates for Google Calendar (YYYYMMDDTHHmmss)
+    const formatDate = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = '00';
+        return `${year}${month}${day}T${hours}${minutes}${seconds}`;
+    };
+    
+    const startDateTime = formatDate(appointmentDate);
+    const endDateTime = formatDate(endDate);
+    
+    // Create Google Calendar URL
+    const title = encodeURIComponent('Appointment at Flips & Bidz Liquidation Auctions');
+    const details = encodeURIComponent(
+        `Appointment with ${formData.firstName} ${formData.lastName}\n\n` +
+        `Phone: ${formData.phone}\n` +
+        `Email: ${formData.email}\n\n` +
+        `Visit our warehouse to view and bid on liquidation items!\n\n` +
+        `Questions? Call us at (626) 944-3190`
+    );
+    const location = encodeURIComponent('15300 Valley View Ave, La Mirada, CA 90638');
+    
+    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDateTime}/${endDateTime}&details=${details}&location=${location}`;
+}
+
 // Send appointment to backend (MongoDB + EmailJS)
 async function sendEmails(formData) {
     try {
+        // Generate Google Calendar link
+        const calendarLink = createGoogleCalendarLink(formData);
+        
         // Step 1: Save to MongoDB database
         const response = await fetch(`${API_URL}/appointments`, {
             method: 'POST',
@@ -337,7 +387,8 @@ async function sendEmails(formData) {
                     phone: formData.phone,
                     date: formData.date,
                     time: formData.time,
-                    referralSource: formData.referralSource
+                    referralSource: formData.referralSource,
+                    calendar_link: calendarLink
                 }
             );
             console.log('✅ Customer confirmation email sent to:', formData.email);
@@ -359,7 +410,8 @@ async function sendEmails(formData) {
                     phone: formData.phone,
                     date: formData.date,
                     time: formData.time,
-                    referralSource: formData.referralSource || 'Not specified'
+                    referralSource: formData.referralSource || 'Not specified',
+                    calendar_link: calendarLink
                 }
             );
             console.log('✅ Business notification email sent to flipsnbidz@gmail.com');
