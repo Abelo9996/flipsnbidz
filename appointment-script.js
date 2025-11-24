@@ -16,7 +16,8 @@ let bookedTimeSlots = []; // Store booked time slots from database
 const businessHours = {
     start: 10, // 10 AM
     end: 17,   // 5 PM
-    closedDays: [2] // Tuesday (0 = Sunday, 1 = Monday, 2 = Tuesday, etc.)
+    closedDays: [2], // Tuesday (0 = Sunday, 1 = Monday, 2 = Tuesday, etc.)
+    closedDates: ['2025-11-27'] // Specific dates that are closed (YYYY-MM-DD format)
 };
 
 // Initialize calendar
@@ -72,13 +73,17 @@ function renderCalendar() {
         const date = new Date(currentYear, currentMonth, i);
         date.setHours(0, 0, 0, 0);
         
+        // Format date as YYYY-MM-DD for comparison
+        const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+        
         // Check if it's today
         if (date.getTime() === today.getTime()) {
             day.classList.add('today');
         }
         
-        // Disable past dates and closed days (Tuesdays)
-        if (date < today || businessHours.closedDays.includes(date.getDay())) {
+        // Disable past dates, closed days (Tuesdays), and specific closed dates
+        const isClosedDate = businessHours.closedDates && businessHours.closedDates.includes(dateString);
+        if (date < today || businessHours.closedDays.includes(date.getDay()) || isClosedDate) {
             day.classList.add('disabled');
         } else {
             day.addEventListener('click', () => selectDate(date, day));
