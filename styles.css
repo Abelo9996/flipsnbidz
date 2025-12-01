@@ -457,7 +457,7 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 }
 
 .logo-image {
-    height: 50px;
+    height: 60px;
     width: auto;
     object-fit: contain;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
