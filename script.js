@@ -341,13 +341,22 @@ function updateCountdown() {
     
     // Find next Sunday at 6PM PT
     let targetDate = new Date(nowPT);
-    const daysUntilSunday = (7 - nowPT.getDay()) % 7 || 7; // Days until next Sunday
-    targetDate.setDate(nowPT.getDate() + daysUntilSunday);
-    targetDate.setHours(18, 0, 0, 0); // Set to 6PM
     
-    // If it's already past 6PM on Sunday, move to next Sunday
-    if (nowPT.getDay() === 0 && nowPT.getHours() >= 18) {
-        targetDate.setDate(targetDate.getDate() + 7);
+    // If today is Sunday
+    if (nowPT.getDay() === 0) {
+        // If it's before 6PM, target today at 6PM
+        if (nowPT.getHours() < 18) {
+            targetDate.setHours(18, 0, 0, 0);
+        } else {
+            // If it's after 6PM, target next Sunday
+            targetDate.setDate(nowPT.getDate() + 7);
+            targetDate.setHours(18, 0, 0, 0);
+        }
+    } else {
+        // For other days, calculate days until next Sunday
+        const daysUntilSunday = (7 - nowPT.getDay()) % 7;
+        targetDate.setDate(nowPT.getDate() + daysUntilSunday);
+        targetDate.setHours(18, 0, 0, 0);
     }
     
     // Calculate time difference
