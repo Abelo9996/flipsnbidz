@@ -1,12 +1,14 @@
-# Apple Calendar Integration Setup Guide
+# Calendar Integration Setup Guide
 
-## ✅ Code Changes (COMPLETED)
+## ✅ Code Changes (COMPLETED) - REVERTED TO GOOGLE CALENDAR
 
-The JavaScript code has been updated to generate Apple Calendar (.ics) files instead of Google Calendar links. The function `createGoogleCalendarLink()` has been replaced with `createAppleCalendarLink()` which creates iCalendar format files compatible with:
-- ✅ Apple Calendar (macOS, iOS, iPadOS)
-- ✅ Outlook
-- ✅ Google Calendar (also supports .ics)
-- ✅ Most other calendar applications
+**Important Update:** The calendar integration now uses **Google Calendar links** which work universally across all email clients and calendar applications.
+
+**Why the change?**
+- ❌ `.ics` files via data URLs don't work in emails (stripped by email clients for security)
+- ❌ EmailJS cannot attach actual files, only links
+- ✅ Google Calendar links work in ALL email clients
+- ✅ Apple Calendar users can still add events (see instructions below)
 
 ---
 
@@ -35,22 +37,22 @@ The old Google Calendar link won't work anymore since we're now generating .ics 
 <a href="{{calendar_link}}" style="...">Add to Google Calendar</a>
 ```
 
-**REPLACE with:**
+**REPLACE with (UPDATED - Simple button):**
 ```html
-<a href="{{calendar_link}}" download="{{calendar_filename}}" style="display: inline-block; background-color: #3498db; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0;">
-  📅 Download Calendar Event (.ics)
+<a href="{{calendar_link}}" target="_blank" style="display: inline-block; background-color: #3498db; color: white; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: bold; margin: 20px 0;">
+  📅 Add to Calendar
 </a>
-<p style="color: #666; font-size: 14px; margin-top: 10px;">
-  Click the button above to download the appointment to your calendar.<br>
-  Works with Apple Calendar, Outlook, Google Calendar, and more!
+<p style="color: #666; font-size: 13px; margin-top: 10px; line-height: 1.6;">
+  Click to add this appointment to your calendar.<br>
+  <strong>Apple Calendar users:</strong> After clicking, use Safari's File → Export → Add to Calendar option.
 </p>
 ```
 
-### 📋 Full Updated Button HTML:
+### 📋 Full Updated Button HTML (Premium Style):
 ```html
 <div style="text-align: center; margin: 30px 0;">
   <a href="{{calendar_link}}" 
-     download="{{calendar_filename}}"
+     target="_blank"
      style="display: inline-block; 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white; 
@@ -63,8 +65,11 @@ The old Google Calendar link won't work anymore since we're now generating .ics 
     📅 Add to Calendar
   </a>
   <p style="color: #666; font-size: 13px; margin-top: 15px; line-height: 1.6;">
-    <strong>Compatible with:</strong><br>
-    Apple Calendar • Outlook • Google Calendar • Yahoo Calendar
+    <strong>Works with all calendar apps</strong><br>
+    Google Calendar • Apple Calendar • Outlook • Yahoo
+  </p>
+  <p style="color: #999; font-size: 11px; margin-top: 8px; font-style: italic;">
+    Apple users: Click the link, then use your browser's export feature to add to Apple Calendar
   </p>
 </div>
 ```
