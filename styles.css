@@ -709,6 +709,140 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     display: block;
 }
 
+/* Award Recognition Section */
+.award-recognition {
+    background: linear-gradient(180deg, 
+        #1e3a8a 0%, 
+        #1e40af 30%, 
+        #2563eb 60%,
+        #f8fafc 100%
+    );
+    padding: 4rem 0 5rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.award-recognition::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 50%, rgba(255, 215, 0, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 50%, rgba(255, 255, 255, 0.08) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+.award-recognition::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 60px,
+        rgba(255, 215, 0, 0.04) 60px,
+        rgba(255, 215, 0, 0.04) 120px
+    );
+    animation: shine-slide 20s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes shine-slide {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(50%);
+    }
+}
+
+.award-recognition-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+    position: relative;
+    z-index: 1;
+    flex-wrap: nowrap;
+}
+
+.awards-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+}
+
+.award-badge-wrapper {
+    position: relative;
+    transition: all 0.4s ease;
+}
+
+.award-badge-wrapper:hover {
+    transform: translateY(-10px);
+}
+
+.award-recognition-image {
+    height: 180px;
+    width: auto;
+    filter: drop-shadow(0 12px 35px rgba(0, 0, 0, 0.5));
+    animation: gentle-float 3s ease-in-out infinite;
+    transition: all 0.4s ease;
+}
+
+.award-badge-wrapper:nth-child(2) .award-recognition-image {
+    animation-delay: 0.5s;
+}
+
+@keyframes gentle-float {
+    0%, 100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(2deg);
+    }
+}
+
+.award-badge-wrapper:hover .award-recognition-image {
+    transform: scale(1.15) rotate(5deg);
+    filter: drop-shadow(0 20px 50px rgba(255, 215, 0, 0.7));
+}
+
+.award-text {
+    text-align: left;
+    max-width: 500px;
+    flex-shrink: 0;
+    min-width: 400px;
+}
+
+.award-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: #ffd700;
+    margin-bottom: 0.75rem;
+    text-shadow: 0 3px 15px rgba(0, 0, 0, 0.4);
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+}
+
+.award-description {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    line-height: 1.6;
+    margin: 0;
+    font-weight: 400;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
 /* What We Offer Section */
 .what-we-offer {
     padding: 5rem 0;
@@ -1952,6 +2086,37 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     .steps-grid,
     .info-grid {
         grid-template-columns: 1fr;
+    }
+
+    /* Award Recognition Mobile Styles */
+    .award-recognition {
+        padding: 2.5rem 0 3rem 0;
+    }
+
+    .award-recognition-content {
+        gap: 1.5rem;
+    }
+
+    .awards-display {
+        gap: 2rem;
+        flex-direction: column;
+    }
+
+    .award-recognition-image {
+        height: 120px;
+    }
+
+    .award-text {
+        text-align: center;
+    }
+
+    .award-title {
+        font-size: 1.6rem;
+    }
+
+    .award-description {
+        font-size: 1rem;
+        padding: 0 1rem;
     }
 
     /* What We Offer Mobile Styles */
