@@ -2094,24 +2094,37 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     }
 
     .award-recognition-content {
-        gap: 1.5rem;
+        flex-direction: column;
+        gap: 2rem;
+        flex-wrap: wrap;
     }
 
     .awards-display {
-        gap: 2rem;
-        flex-direction: column;
+        gap: 1.5rem;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .award-badge-wrapper {
+        flex-shrink: 1;
     }
 
     .award-recognition-image {
-        height: 120px;
+        height: 100px;
+        max-width: 100%;
+        object-fit: contain;
     }
 
     .award-text {
         text-align: center;
+        min-width: auto;
+        max-width: 100%;
     }
 
     .award-title {
-        font-size: 1.6rem;
+        font-size: 1.5rem;
+        white-space: normal;
     }
 
     .award-description {
@@ -2647,6 +2660,27 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
         font-size: 1rem;
     }
 
+    /* Award Recognition Extra Small Styles */
+    .award-recognition {
+        padding: 2rem 0;
+    }
+
+    .awards-display {
+        gap: 1rem;
+    }
+
+    .award-recognition-image {
+        height: 80px;
+    }
+
+    .award-title {
+        font-size: 1.3rem;
+    }
+
+    .award-description {
+        font-size: 0.9rem;
+    }
+
     .map-info-card h3 {
         font-size: 1.25rem;
     }
@@ -2720,6 +2754,28 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 
     .timer-text {
         font-size: 0.65rem;
+    }
+
+    /* Award Recognition iPhone SE Styles */
+    .award-recognition {
+        padding: 1.5rem 0;
+    }
+
+    .awards-display {
+        gap: 0.75rem;
+    }
+
+    .award-recognition-image {
+        height: 70px;
+    }
+
+    .award-title {
+        font-size: 1.2rem;
+    }
+
+    .award-description {
+        font-size: 0.85rem;
+        padding: 0 0.5rem;
     }
 
     .map-wrapper iframe {
