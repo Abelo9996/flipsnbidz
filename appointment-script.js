@@ -309,7 +309,7 @@ async function handleFormSubmit(e) {
 }
 
 // Helper function to create Google Calendar link
-function createGoogleCalendarLink(formData) {
+function createAppleCalendarLink(formData) {
     // Parse the date and time
     const appointmentDate = new Date(formData.date);
     const [timeStr, period] = formData.time.split(' ');
@@ -327,7 +327,7 @@ function createGoogleCalendarLink(formData) {
     const endDate = new Date(appointmentDate);
     endDate.setMinutes(endDate.getMinutes() + 15);
     
-    // Format dates for Google Calendar (YYYYMMDDTHHmmss)
+    // Format dates for iCalendar format (YYYYMMDDTHHmmss)
     const formatDate = (date) => {
         const year = date.getFullYear();
         const month = String(date.getMonth() + 1).padStart(2, '0');
@@ -340,26 +340,54 @@ function createGoogleCalendarLink(formData) {
     
     const startDateTime = formatDate(appointmentDate);
     const endDateTime = formatDate(endDate);
+    const timestamp = formatDate(new Date());
     
-    // Create Google Calendar URL
-    const title = encodeURIComponent('Appointment at Flips & Bidz Liquidation Auctions');
-    const details = encodeURIComponent(
-        `Appointment with ${formData.firstName} ${formData.lastName}\n\n` +
-        `Phone: ${formData.phone}\n` +
-        `Email: ${formData.email}\n\n` +
-        `Visit our warehouse to view and bid on liquidation items!\n\n` +
-        `Questions? Call us at (626) 944-3190`
-    );
-    const location = encodeURIComponent('15300 Valley View Ave, La Mirada, CA 90638');
+    // Create iCalendar (.ics) content for Apple Calendar
+    const title = 'Appointment at Flips & Bidz Liquidation Auctions';
+    const description = `Appointment with ${formData.firstName} ${formData.lastName}\\n\\n` +
+        `Phone: ${formData.phone}\\n` +
+        `Email: ${formData.email}\\n\\n` +
+        `Visit our warehouse to view and bid on liquidation items!\\n\\n` +
+        `Questions? Call us at (626) 944-3190`;
+    const location = '15300 Valley View Ave, La Mirada, CA 90638';
     
-    return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${startDateTime}/${endDateTime}&details=${details}&location=${location}`;
+    // Generate unique UID for the event
+    const uid = `appointment-${Date.now()}@flipsandbidz.com`;
+    
+    // Create iCalendar content
+    const icsContent = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Flips & Bidz//Appointment Scheduler//EN',
+        'CALSCALE:GREGORIAN',
+        'METHOD:PUBLISH',
+        'BEGIN:VEVENT',
+        `UID:${uid}`,
+        `DTSTAMP:${timestamp}`,
+        `DTSTART:${startDateTime}`,
+        `DTEND:${endDateTime}`,
+        `SUMMARY:${title}`,
+        `DESCRIPTION:${description}`,
+        `LOCATION:${location}`,
+        'STATUS:CONFIRMED',
+        'SEQUENCE:0',
+        'END:VEVENT',
+        'END:VCALENDAR'
+    ].join('\r\n');
+    
+    // Return both the .ics content and a data URL
+    return {
+        icsContent: icsContent,
+        dataUrl: `data:text/calendar;charset=utf-8,${encodeURIComponent(icsContent)}`,
+        filename: `flips-bidz-appointment-${startDateTime}.ics`
+    };
 }
 
 // Send appointment to backend (MongoDB + EmailJS)
 async function sendEmails(formData) {
     try {
-        // Generate Google Calendar link
-        const calendarLink = createGoogleCalendarLink(formData);
+        // Generate Apple Calendar link
+        const calendarLink = createAppleCalendarLink(formData);
         
         // Step 1: Save to MongoDB database
         const response = await fetch(`${API_URL}/appointments`, {
@@ -393,7 +421,8 @@ async function sendEmails(formData) {
                     date: formData.date,
                     time: formData.time,
                     referralSource: formData.referralSource,
-                    calendar_link: calendarLink
+                    calendar_link: calendarLink.dataUrl,
+                    calendar_filename: calendarLink.filename
                 }
             );
             console.log('✅ Customer confirmation email sent to:', formData.email);
@@ -416,7 +445,8 @@ async function sendEmails(formData) {
                     date: formData.date,
                     time: formData.time,
                     referralSource: formData.referralSource || 'Not specified',
-                    calendar_link: calendarLink
+                    calendar_link: calendarLink.dataUrl,
+                    calendar_filename: calendarLink.filename
                 }
             );
             console.log('✅ Business notification email sent to flipsnbidz@gmail.com');
