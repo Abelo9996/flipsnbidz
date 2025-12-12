@@ -984,8 +984,20 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+.category-icon img {
+    width: 56px;
+    height: 56px;
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+    filter: none;
+}
+
 .category-card:hover .category-icon {
     transform: scale(1.15) rotate(5deg);
+}
+
+.category-card:hover .category-icon img {
+    filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.4));
 }
 
 .category-card h4 {
@@ -1074,8 +1086,20 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     z-index: 1;
 }
 
+.market-icon img {
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+    filter: none;
+}
+
 .market-card:hover .market-icon {
     transform: scale(1.12) rotate(-5deg);
+}
+
+.market-card:hover .market-icon img {
+    filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.3));
 }
 
 .market-card h4 {
@@ -1312,8 +1336,20 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     display: inline-block;
 }
 
+.feature-icon img {
+    width: 56px;
+    height: 56px;
+    display: inline-block;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+    filter: none;
+}
+
 .feature-card:hover .feature-icon {
     transform: scale(1.2) rotate(5deg);
+}
+
+.feature-card:hover .feature-icon img {
+    filter: drop-shadow(0 4px 12px rgba(37, 99, 235, 0.4));
 }
 
 .feature-card h3 {
@@ -2824,6 +2860,47 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     body:has(.announcement-banner-link:not(.hidden)) .hero {
         margin-top: 50px;
     }
+}
+
+/* Professional Icon Styling */
+.offer-heading img,
+.award-title img,
+h3 img {
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.offer-heading:hover img,
+.award-title:hover img,
+h3:hover img {
+    transform: scale(1.1) rotate(-5deg);
+    filter: drop-shadow(0 2px 8px rgba(37, 99, 235, 0.3));
+}
+
+.industry-tag img {
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.industry-tag:hover img {
+    transform: scale(1.15);
+    filter: brightness(0) invert(1);
+}
+
+.address img,
+.email-contact img,
+.phone-contact img {
+    display: inline-block;
+    vertical-align: middle;
+    transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.email-contact:hover img,
+.phone-contact:hover img {
+    transform: scale(1.1);
+    filter: drop-shadow(0 2px 6px rgba(37, 99, 235, 0.3));
 }
 
 /* Print Styles */

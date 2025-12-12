@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#223046" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Outer circle -->
+  <circle cx="12" cy="12" r="10"/>
+  <!-- Dollar sign vertical line -->
+  <line x1="12" y1="5.5" x2="12" y2="18.5"/>
+  <!-- Top curve of S (curves right) -->
+  <path d="M9 9C9 7.5 10.5 6.5 12 6.5C13.5 6.5 15 7.5 15 9"/>
+  <!-- Bottom curve of S (curves left) -->
+  <path d="M15 15C15 16.5 13.5 17.5 12 17.5C10.5 17.5 9 16.5 9 15"/>
+  <!-- Middle connection -->
+  <path d="M9 9C9 10.5 10.5 11.5 12 11.5C13.5 11.5 15 12.5 15 15"/>
+</svg>
