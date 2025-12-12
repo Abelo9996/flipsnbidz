@@ -20,6 +20,10 @@
     {
       "src": "images/**",
       "use": "@vercel/static"
+    },
+    {
+      "src": "icons/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
