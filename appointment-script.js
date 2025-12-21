@@ -17,7 +17,7 @@ const businessHours = {
     start: 10, // 10 AM
     end: 17,   // 5 PM
     closedDays: [2], // Tuesday (0 = Sunday, 1 = Monday, 2 = Tuesday, etc.)
-    closedDates: ['2025-11-27'] // Specific dates that are closed (YYYY-MM-DD format)
+    closedDates: ['2025-11-27', '2025-12-26', '2025-12-27'] // Specific dates that are closed (YYYY-MM-DD format)
 };
 
 // Initialize calendar
