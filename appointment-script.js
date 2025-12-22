@@ -17,7 +17,8 @@ const businessHours = {
     start: 10, // 10 AM
     end: 17,   // 5 PM
     closedDays: [2], // Tuesday (0 = Sunday, 1 = Monday, 2 = Tuesday, etc.)
-    closedDates: ['2025-11-27', '2025-12-26', '2025-12-27'] // Specific dates that are closed (YYYY-MM-DD format)
+    closedDates: ['2025-11-27', '2025-12-26', '2025-12-27'], // Specific dates that are closed
+    openExceptions: ['2025-12-23'] // Special dates that are open even if normally closed (like Tuesday Dec 23)
 };
 
 // Initialize calendar
@@ -82,8 +83,12 @@ function renderCalendar() {
         }
         
         // Disable past dates, closed days (Tuesdays), and specific closed dates
+        // BUT allow dates in openExceptions array (like December 23)
         const isClosedDate = businessHours.closedDates && businessHours.closedDates.includes(dateString);
-        if (date < today || businessHours.closedDays.includes(date.getDay()) || isClosedDate) {
+        const isOpenException = businessHours.openExceptions && businessHours.openExceptions.includes(dateString);
+        const isClosed = (businessHours.closedDays.includes(date.getDay()) || isClosedDate) && !isOpenException;
+        
+        if (date < today || isClosed) {
             day.classList.add('disabled');
         } else {
             day.addEventListener('click', () => selectDate(date, day));
