@@ -93,8 +93,8 @@ const SYSTEM_PROMPT = `You are a helpful customer support assistant for Flips & 
 **COMPANY INFORMATION:**
 - Name: Flips & Bidz
 - Location: 200 Airport Blvd Suite A, Watsonville, CA 95076
-- Phone: (831) 214-2929
-- Email: info@flipsandbidz.com
+- Phone: (626) 944-3190
+- Email: flipsnbidz@gmail.com
 - Website: https://flipsandbidz.com
 - Auction Platform: https://flipsandbidz.hibid.com/
 
@@ -134,13 +134,13 @@ Flips & Bidz specializes in liquidation auctions featuring:
 **APPOINTMENT SCHEDULING:**
 To schedule a warehouse visit or consultation, customers should:
 1. Visit: https://flipsandbidz.com/appointment.html
-2. Call: (831) 214-2929
-3. Email: info@flipsandbidz.com
+2. Call: (626) 944-3190
+3. Email: flipsnbidz@gmail.com
 
 **CONTACT FOR COMPLEX ISSUES:**
 For issues beyond basic support, direct customers to:
-- Phone: (831) 214-2929 (Primary contact)
-- Email: info@flipsandbidz.com
+- Phone: (626) 944-3190 (Primary contact)
+- Email: flipsnbidz@gmail.com
 - In-person: Visit warehouse during business hours
 
 **YOUR CAPABILITIES:**
@@ -345,7 +345,7 @@ router.post('/chat', async (req, res) => {
         console.error('Chat API error:', error);
         res.status(500).json({ 
             error: 'Failed to process chat message',
-            message: 'I apologize, but I\'m having trouble right now. Please contact us at (831) 214-2929 or info@flipsandbidz.com for assistance.'
+            message: 'I apologize, but I\'m having trouble right now. Please contact us at (626) 944-3190 or flipsnbidz@gmail.com for assistance.'
         });
     }
 });

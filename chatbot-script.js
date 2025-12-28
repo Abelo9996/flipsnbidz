@@ -101,7 +101,7 @@ class ChatbotClient {
             console.error('Chat error:', error);
             this.hideTyping();
             this.addMessage(
-                'I apologize, but I\'m having trouble connecting right now. Please try again in a moment, or contact us directly at (831) 214-2929 or info@flipsandbidz.com.',
+                'I apologize, but I\'m having trouble connecting right now. Please try again in a moment, or contact us directly at (626) 944-3190 or flipsnbidz@gmail.com.',
                 'bot'
             );
         }
