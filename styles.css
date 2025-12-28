@@ -216,10 +216,10 @@ body {
 }
 
 .announcement-banner {
-    background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 50%, #ec4899 100%);
     color: white;
     padding: 0.75rem 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -234,15 +234,15 @@ body {
     height: 100%;
     background: linear-gradient(90deg, 
         transparent, 
-        rgba(255, 255, 255, 0.15), 
+        rgba(255, 255, 255, 0.25), 
         transparent
     );
     transition: left 0.6s ease;
 }
 
 .announcement-banner-link:hover .announcement-banner {
-    background: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
+    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
     transform: translateY(2px);
 }
 

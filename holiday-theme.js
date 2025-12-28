@@ -2,7 +2,7 @@
 // Set ENABLED to false after holidays to return to normal theme
 
 const HOLIDAY_THEME = {
-    ENABLED: true, // Toggle this to enable/disable holiday theme
+    ENABLED: false, // Toggle this to enable/disable holiday theme
     START_DATE: '2025-12-01',
     END_DATE: '2026-01-05',
     

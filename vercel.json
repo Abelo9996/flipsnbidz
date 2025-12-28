@@ -24,6 +24,10 @@
     {
       "src": "icons/**",
       "use": "@vercel/static"
+    },
+    {
+      "src": "auction_context/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -35,5 +39,8 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ]
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
 }

@@ -12,6 +12,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('.')); // Serve static files from current directory
 
+// Import chatbot router
+const chatbotRouter = require('./api/chatbot');
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
 .then(() => console.log('✅ Connected to MongoDB'))
@@ -261,6 +264,9 @@ async function sendAppointmentEmails(appointmentData) {
 }
 
 // API Routes
+
+// Chatbot Routes
+app.use('/api', chatbotRouter);
 
 // Create new appointment
 app.post('/api/appointments', async (req, res) => {
