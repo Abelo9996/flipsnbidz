@@ -5,6 +5,9 @@ const { google } = require('googleapis');
 
 const app = express();
 
+// Import chatbot router
+const chatbotRouter = require('./chatbot');
+
 // Middleware
 app.use(cors());
 app.use(express.json());
@@ -459,6 +462,9 @@ app.delete('/api/appointments/:id', async (req, res) => {
         });
     }
 });
+
+// Chatbot routes
+app.use('/api', chatbotRouter);
 
 // Health check endpoint
 app.get('/api/health', async (req, res) => {
