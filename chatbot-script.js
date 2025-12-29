@@ -16,14 +16,24 @@ class ChatbotClient {
         this.messages = document.getElementById('chatbot-messages');
         this.typingIndicator = document.getElementById('typing-indicator');
         this.badge = document.getElementById('chat-badge');
+        this.welcomeBubble = document.getElementById('chat-welcome-bubble');
+        this.closeWelcome = document.getElementById('close-welcome');
 
         // Event Listeners
         this.toggle.addEventListener('click', () => this.toggleChat());
         this.minimize.addEventListener('click', () => this.toggleChat());
         this.form.addEventListener('submit', (e) => this.handleSubmit(e));
+        
+        // Close welcome bubble
+        if (this.closeWelcome) {
+            this.closeWelcome.addEventListener('click', () => this.hideWelcomeBubble());
+        }
 
         // Load conversation history from localStorage
         this.loadHistory();
+
+        // Friendly attention animation on page load
+        this.startFriendlyAnimation();
 
         // Auto-show welcome message after 3 seconds if first visit
         if (!localStorage.getItem('chatbot_visited')) {
@@ -36,14 +46,49 @@ class ChatbotClient {
         }
     }
 
+    startFriendlyAnimation() {
+        // Show welcome bubble and gentle bounce after 2 seconds
+        setTimeout(() => {
+            // Add bounce animation to toggle button
+            this.toggle.classList.add('attention-grab');
+            
+            // Always show welcome bubble on page load
+            if (this.welcomeBubble) {
+                setTimeout(() => {
+                    this.welcomeBubble.classList.add('show');
+                    console.log('Showing welcome bubble');
+                }, 400); // Slight delay after bounce starts
+            }
+            
+            // Remove bounce animation after 2 bounces (0.6s each = 1.2s)
+            setTimeout(() => {
+                this.toggle.classList.remove('attention-grab');
+            }, 1200);
+        }, 2000); // Start after 2 seconds of landing on page
+
+        // Auto-hide welcome bubble after 8 seconds
+        setTimeout(() => {
+            this.hideWelcomeBubble();
+        }, 10000);
+    }
+
+    hideWelcomeBubble() {
+        if (this.welcomeBubble) {
+            this.welcomeBubble.classList.remove('show');
+            console.log('Welcome bubble hidden');
+        }
+    }
+
     toggleChat() {
         this.isOpen = !this.isOpen;
         this.toggle.classList.toggle('active');
         this.window.classList.toggle('active');
         
+        // Hide welcome bubble when chat is opened
         if (this.isOpen) {
             this.input.focus();
             this.badge.classList.add('hidden');
+            this.hideWelcomeBubble();
             this.scrollToBottom();
         }
     }
@@ -134,6 +179,30 @@ class ChatbotClient {
     }
 
     formatMessage(text) {
+        console.log('Original text from API:', text);
+        
+        // Comprehensive cleanup of malformed HTML/markdown links from LLM
+        
+        // Pattern 1: URL" target="_blank" rel="noopener">Link Text. (with period at end)
+        text = text.replace(/(\bhttps?:\/\/[^\s"]+)"\s*target="_blank"\s*rel="noopener">([^<\n]+?)\./gi, '[$2]($1).');
+        
+        // Pattern 2: URL" target="_blank" rel="noopener">Link Text (without period)
+        text = text.replace(/(\bhttps?:\/\/[^\s"]+)"\s*target="_blank"\s*rel="noopener">([^.<\n]+)/gi, '[$2]($1)');
+        
+        // Pattern 3: [text](URL" target="_blank" rel="noopener")
+        text = text.replace(/\[([^\]]+)\]\((\bhttps?:\/\/[^\s)"]+)"\s*target="_blank"\s*rel="noopener"\s*\)/gi, '[$1]($2)');
+        
+        // Pattern 4: Complete HTML anchor tags <a href="URL">text</a>
+        text = text.replace(/<a\s+href="([^"]+)"[^>]*>([^<]+)<\/a>/gi, '[$2]($1)');
+        
+        // Pattern 5: Broken markdown with any HTML attributes mixed in [text](URL anything...)
+        text = text.replace(/\[([^\]]+)\]\((\bhttps?:\/\/[^\s)"]+)[^)]*\)/gi, '[$1]($2)');
+        
+        // Pattern 6: Any remaining standalone HTML attributes after URLs
+        text = text.replace(/(\bhttps?:\/\/[^\s"]+)"\s*[^>]*>\s*/gi, '$1 ');
+        
+        console.log('Cleaned text:', text);
+        
         // Escape HTML to prevent XSS (but preserve intended formatting)
         const escapeHtml = (str) => {
             const div = document.createElement('div');
@@ -171,6 +240,9 @@ class ChatbotClient {
                 codeBlockContent.push(line);
                 continue;
             }
+
+            // Handle markdown links [text](url) - must be done before other formatting
+            line = line.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>');
 
             // Handle inline code `code`
             line = line.replace(/`([^`]+)`/g, '<code>$1</code>');
@@ -238,10 +310,11 @@ class ChatbotClient {
                 continue;
             }
 
-            // Regular line - convert URLs to links
+            // Regular line - convert bare URLs to links (but skip if already in anchor tags)
             if (line.trim()) {
+                // Only convert standalone URLs that aren't already part of an anchor tag
                 line = line.replace(
-                    /(https?:\/\/[^\s<]+)/g,
+                    /(?<!href="|">)(https?:\/\/[^\s<"]+)(?!<\/a>)/g,
                     '<a href="$1" target="_blank" rel="noopener">$1</a>'
                 );
                 formatted.push(`<p>${line}</p>`);
