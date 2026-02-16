@@ -17,7 +17,18 @@ const businessHours = {
     start: 10, // 10 AM
     end: 17,   // 5 PM
     closedDays: [2], // Tuesday (0 = Sunday, 1 = Monday, 2 = Tuesday, etc.)
-    closedDates: ['2025-11-27', '2025-12-26', '2025-12-27'], // Specific dates that are closed
+    closedDates: [
+        '2025-11-27',
+        '2025-12-26',
+        '2025-12-27',
+        // February 2026 blackout (except the 21st)
+        '2026-02-20',
+        '2026-02-22',
+        '2026-02-23',
+        '2026-02-24',
+        '2026-02-25',
+        '2026-02-26'
+    ], // Specific dates that are closed
     openExceptions: ['2025-12-23'] // Special dates that are open even if normally closed (like Tuesday Dec 23)
 };
 
