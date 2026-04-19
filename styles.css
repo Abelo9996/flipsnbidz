@@ -638,7 +638,12 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     }
 
     .dual-path-grid {
-        grid-template-columns: repeat(2, minmax(280px, 1fr));
+        grid-template-columns: 1fr;
+        max-width: 760px;
+    }
+
+    .dual-path-card h3 {
+        max-width: none;
     }
 
     .stats-bar {
@@ -734,10 +739,10 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 
 .dual-path-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(320px, 1fr));
+    grid-template-columns: repeat(2, minmax(360px, 1fr));
     gap: 2rem;
     align-items: stretch;
-    max-width: 1180px;
+    max-width: 1220px;
     margin: 0 auto;
 }
 
@@ -746,10 +751,10 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 1.5rem;
-    border-radius: 24px;
-    padding: 2.15rem;
-    min-height: 100%;
+    gap: 1.75rem;
+    border-radius: 28px;
+    padding: 2.4rem;
+    min-height: 420px;
     backdrop-filter: blur(14px);
     box-shadow: 0 24px 70px rgba(15, 23, 42, 0.35);
     border: 1px solid rgba(255, 255, 255, 0.14);
@@ -775,15 +780,17 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 }
 
 .dual-path-card h3 {
-    font-size: 2rem;
-    line-height: 1.22;
-    margin-bottom: 0.85rem;
+    font-size: 2.15rem;
+    line-height: 1.18;
+    margin-bottom: 0.9rem;
+    max-width: 16ch;
 }
 
 .dual-path-card p {
     color: rgba(255, 255, 255, 0.86);
-    line-height: 1.85;
+    line-height: 1.75;
     font-size: 1rem;
+    max-width: 48ch;
 }
 
 .path-badge-new {
@@ -799,19 +806,31 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     box-shadow: 0 10px 24px rgba(249, 115, 22, 0.35);
 }
 
-.dual-path-highlights {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
+.dual-path-points {
+    list-style: none;
+    display: grid;
+    gap: 0.85rem;
+    padding: 0;
+    margin: 0;
 }
 
-.dual-path-highlights span {
-    border-radius: 999px;
-    padding: 0.55rem 0.95rem;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    font-size: 0.9rem;
-    font-weight: 600;
+.dual-path-points li {
+    position: relative;
+    padding-left: 1.4rem;
+    color: rgba(255, 255, 255, 0.88);
+    line-height: 1.6;
+}
+
+.dual-path-points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62rem;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--secondary-color);
+    box-shadow: 0 0 0 5px rgba(245, 158, 11, 0.16);
 }
 
 .compact-timer {
@@ -946,13 +965,38 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 /* Award Recognition Section */
 .stats-bar-section {
     position: relative;
-    margin-top: -2.5rem;
+    margin-top: 0;
     z-index: 3;
+    padding: 2rem 0 1rem;
+    background: #f8fafc;
+}
+
+.stats-bar-shell {
+    max-width: 1160px;
+}
+
+.stats-bar-intro {
+    text-align: center;
+    margin-bottom: 1.35rem;
+}
+
+.stats-bar-kicker {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.45rem 0.9rem;
+    border-radius: 999px;
+    background: rgba(37, 99, 235, 0.08);
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .stats-bar {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
 }
 
@@ -2331,11 +2375,12 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     }
 
     .stats-bar-section {
-        margin-top: -1rem;
+        margin-top: 0;
+        padding: 1.5rem 0 0.5rem;
     }
 
     .stats-bar {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
         gap: 0.85rem;
     }
 

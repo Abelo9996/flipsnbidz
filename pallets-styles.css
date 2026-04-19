@@ -24,7 +24,7 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
 .pallets-hero-content {
     position: relative;
     z-index: 1;
-    max-width: 880px;
+    max-width: 1120px;
     color: white;
     padding: 5.5rem 0 5rem;
 }
@@ -49,7 +49,7 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
     line-height: 1.08;
     margin-bottom: 1.35rem;
     text-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
-    max-width: 820px;
+    max-width: 760px;
 }
 
 .pallets-hero p {
@@ -60,21 +60,42 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
     margin-bottom: 2rem;
 }
 
-.pallets-trust-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.9rem;
-    margin-top: 2rem;
+.pallets-hero-highlights {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2.25rem;
+    max-width: 1120px;
 }
 
-.pallets-trust-strip span,
+.pallets-highlight-card {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 20px;
+    padding: 1.25rem;
+    backdrop-filter: blur(12px);
+}
+
+.pallets-highlight-card strong {
+    display: block;
+    color: #ffffff;
+    font-size: 1rem;
+    margin-bottom: 0.35rem;
+}
+
+.pallets-highlight-card span,
+.msrp-pill {
+    display: block;
+    color: #e5e7eb;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
 .msrp-pill {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.18);
-    color: #e5e7eb;
     border-radius: 999px;
     padding: 0.7rem 1rem;
-    font-size: 0.92rem;
     font-weight: 600;
 }
 
@@ -199,7 +220,8 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
     .two-column-row,
     .multi-select-grid,
     .manifest-grid,
-    .pallets-categories-grid {
+    .pallets-categories-grid,
+    .pallets-hero-highlights {
         grid-template-columns: 1fr;
     }
 
