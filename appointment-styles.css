@@ -293,6 +293,11 @@
     padding: 0.9rem 1rem;
 }
 
+.inline-review-cta {
+    margin-top: 0;
+    margin-bottom: 1.25rem;
+}
+
 .review-cta-copy h4 {
     color: var(--text-dark);
     margin-bottom: 0.25rem;
