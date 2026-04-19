@@ -743,10 +743,10 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 
 .dual-path-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(420px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(2, minmax(380px, 1fr));
+    gap: 1.25rem;
     align-items: stretch;
-    max-width: 1280px;
+    max-width: 1120px;
     margin: 0 auto;
 }
 
@@ -755,10 +755,10 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 1.15rem;
-    border-radius: 28px;
-    padding: 2rem;
-    min-height: 340px;
+    gap: 0.9rem;
+    border-radius: 24px;
+    padding: 1.55rem;
+    min-height: 285px;
     backdrop-filter: blur(14px);
     box-shadow: 0 24px 70px rgba(15, 23, 42, 0.35);
     border: 1px solid rgba(255, 255, 255, 0.14);
@@ -784,17 +784,17 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 }
 
 .dual-path-card h3 {
-    font-size: 1.9rem;
-    line-height: 1.12;
-    margin-bottom: 0.6rem;
+    font-size: 1.45rem;
+    line-height: 1.14;
+    margin-bottom: 0.45rem;
     max-width: 18ch;
 }
 
 .dual-path-card p {
     color: rgba(255, 255, 255, 0.86);
-    line-height: 1.6;
-    font-size: 0.98rem;
-    max-width: 44ch;
+    line-height: 1.45;
+    font-size: 0.9rem;
+    max-width: 38ch;
 }
 
 .path-badge-new {
@@ -819,12 +819,12 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 .dual-path-inline-metrics span {
     display: inline-flex;
     align-items: center;
-    padding: 0.48rem 0.8rem;
+    padding: 0.38rem 0.7rem;
     border-radius: 999px;
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
     color: rgba(255, 255, 255, 0.9);
-    font-size: 0.86rem;
+    font-size: 0.78rem;
     font-weight: 600;
     line-height: 1.2;
 }
@@ -832,31 +832,35 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 .compact-timer {
     background: rgba(255, 255, 255, 0.08);
     border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 18px;
-    padding: 1rem;
+    border-radius: 16px;
+    padding: 0.8rem;
 }
 
 .compact-timer .timer-label {
-    margin-bottom: 0.55rem;
+    margin-bottom: 0.45rem;
+    font-size: 0.82rem;
 }
 
 .compact-timer .timer-display {
     justify-content: flex-start;
-    gap: 0.55rem;
+    gap: 0.4rem;
 }
 
 .compact-timer .timer-unit {
-    min-width: 58px;
+    min-width: 50px;
 }
 
 .compact-timer .timer-value {
-    font-size: 1.55rem;
+    font-size: 1.3rem;
 }
 
 .hero-title {
-    font-size: 3.1rem;
+    font-size: 2.7rem;
     font-weight: 700;
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.65rem;
+    max-width: 18ch;
+    margin-left: auto;
+    margin-right: auto;
     text-shadow: 
         2px 2px 4px rgba(0, 0, 0, 0.8),
         0 0 20px rgba(0, 0, 0, 0.6),
@@ -865,8 +869,8 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 }
 
 .hero-subtitle {
-    font-size: 1.08rem;
-    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    margin-bottom: 1.25rem;
     opacity: 0.98;
     text-shadow: 
         1px 1px 3px rgba(0, 0, 0, 0.8),
@@ -2363,7 +2367,7 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     }
 
     .dual-path-hero {
-        padding: 5.75rem 0 4rem;
+        padding: 5.6rem 0 3.75rem;
     }
 
     .award-recognition-compact {
