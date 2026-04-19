@@ -220,7 +220,7 @@ body {
     color: white;
     padding: 0.45rem 1rem;
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: box-shadow 0.25s ease, filter 0.25s ease, background 0.25s ease;
     position: relative;
     overflow: hidden;
 }
@@ -241,9 +241,9 @@ body {
 }
 
 .announcement-banner-link:hover .announcement-banner {
-    background: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #db2777 100%);
-    box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
-    transform: translateY(2px);
+    background: linear-gradient(135deg, #3a7af0 0%, #7c4df0 50%, #e5479d 100%);
+    box-shadow: 0 6px 18px rgba(59, 130, 246, 0.34);
+    filter: saturate(1.04) brightness(1.02);
 }
 
 .announcement-banner-link:hover .announcement-banner::before {
@@ -251,8 +251,8 @@ body {
 }
 
 .announcement-banner-link:active .announcement-banner {
-    transform: translateY(1px);
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+    filter: saturate(1.02) brightness(0.99);
 }
 
 @keyframes slideDown {
@@ -304,8 +304,7 @@ body {
 }
 
 .announcement-banner-link:hover .live-indicator {
-    background: rgba(255, 255, 255, 0.25);
-    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.22);
 }
 
 .live-dot {
