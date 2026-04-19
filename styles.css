@@ -426,6 +426,10 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     margin-top: 40px;
 }
 
+body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
+    min-height: calc(100vh - 110px);
+}
+
 /* Header & Navigation */
 
 .navbar {
@@ -680,7 +684,7 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 }
 
 .dual-path-hero {
-    min-height: auto;
+    min-height: calc(100vh - 70px);
     padding: 5.4rem 0 3.5rem;
 }
 
@@ -2430,6 +2434,7 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     }
 
     .dual-path-hero {
+        min-height: auto;
         padding: 5.25rem 0 3.2rem;
     }
 
