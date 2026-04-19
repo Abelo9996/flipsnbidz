@@ -569,6 +569,11 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     overflow: hidden;
 }
 
+.dual-path-hero {
+    min-height: auto;
+    padding: 7rem 0 5rem;
+}
+
 .hero::before {
     content: '';
     position: absolute;
@@ -602,6 +607,131 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     color: var(--text-white);
     z-index: 2;
     animation: fadeInUp 1s ease;
+}
+
+.dual-path-content {
+    text-align: left;
+}
+
+.hero-unified-copy {
+    max-width: 900px;
+    margin: 0 auto 2.5rem;
+    text-align: center;
+}
+
+.dual-path-kicker {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.12);
+    color: #fde68a;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    padding: 0.45rem 0.95rem;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.dual-path-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    align-items: stretch;
+}
+
+.dual-path-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1.5rem;
+    border-radius: 24px;
+    padding: 2rem;
+    min-height: 100%;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.35);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.auction-path {
+    background: linear-gradient(160deg, rgba(15, 23, 42, 0.86), rgba(30, 64, 175, 0.72));
+}
+
+.pallets-path {
+    background: linear-gradient(160deg, rgba(15, 23, 42, 0.86), rgba(124, 58, 237, 0.68));
+}
+
+.path-label {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #cbd5e1;
+    margin-bottom: 0.85rem;
+}
+
+.dual-path-card h3 {
+    font-size: 1.85rem;
+    line-height: 1.2;
+    margin-bottom: 0.85rem;
+}
+
+.dual-path-card p {
+    color: rgba(255, 255, 255, 0.86);
+    line-height: 1.8;
+}
+
+.path-badge-new {
+    position: absolute;
+    top: 1.4rem;
+    right: 1.4rem;
+    background: linear-gradient(135deg, #f97316, #facc15);
+    color: #111827;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 0.35rem 0.7rem;
+    border-radius: 999px;
+    box-shadow: 0 10px 24px rgba(249, 115, 22, 0.35);
+}
+
+.dual-path-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.dual-path-highlights span {
+    border-radius: 999px;
+    padding: 0.55rem 0.95rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.compact-timer {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 18px;
+    padding: 1.25rem;
+}
+
+.compact-timer .timer-label {
+    margin-bottom: 0.75rem;
+}
+
+.compact-timer .timer-display {
+    justify-content: flex-start;
+    gap: 0.65rem;
+}
+
+.compact-timer .timer-unit {
+    min-width: 64px;
+}
+
+.compact-timer .timer-value {
+    font-size: 1.9rem;
 }
 
 .hero-title {
@@ -2015,6 +2145,27 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .dual-path-hero {
+        padding: 6rem 0 4rem;
+    }
+
+    .dual-path-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dual-path-card {
+        padding: 1.5rem;
+    }
+
+    .dual-path-card h3 {
+        font-size: 1.55rem;
+    }
+
+    .compact-timer .timer-display {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
     /* Announcement Banner Mobile */
     .announcement-banner {
         padding: 0.6rem 0.75rem;
