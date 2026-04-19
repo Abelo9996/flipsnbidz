@@ -288,21 +288,34 @@
     box-shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
 }
 
+.compact-review-cta {
+    margin-top: 1rem;
+    padding: 0.9rem 1rem;
+}
+
 .review-cta-copy h4 {
     color: var(--text-dark);
-    margin-bottom: 0.45rem;
-    font-size: 1rem;
+    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
 }
 
 .review-cta-copy p {
     color: var(--text-light);
-    margin-bottom: 1rem;
-    line-height: 1.6;
-    font-size: 0.92rem;
+    margin-bottom: 0.45rem;
+    line-height: 1.45;
+    font-size: 0.86rem;
 }
 
-.review-cta-button {
-    text-align: center;
+.review-cta-link {
+    color: var(--primary-color);
+    font-weight: 700;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.review-cta-link:hover {
+    color: var(--primary-dark);
+    text-decoration: underline;
 }
 
 /* Success Modal */
