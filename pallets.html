@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pallets & Truckloads - Flips & Bidz</title>
+    <link rel="icon" type="image/png" href="images/favicon.png">
+    <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="pallets-styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+</head>
+<body>
+    <a href="https://flipsandbidz.hibid.com/" target="_blank" class="announcement-banner-link" id="announcementBanner">
+        <div class="announcement-banner">
+            <div class="announcement-content">
+                <span class="live-indicator">
+                    <span class="live-dot"></span>
+                    <span class="live-text">LIVE</span>
+                </span>
+                <p class="announcement-message">
+                    <strong>We are live!</strong> Our auction lots start to close on Sunday at 6PM Pacific Time. Click to view!
+                </p>
+                <button class="banner-close" id="closeBanner" aria-label="Close banner" onclick="event.preventDefault(); event.stopPropagation();">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </a>
+
+    <header class="header">
+        <nav class="navbar">
+            <div class="container">
+                <div class="nav-wrapper">
+                    <div class="logo">
+                        <a href="index.html" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 1rem;">
+                            <img src="images/flipsnbidz.png" alt="Flips & Bidz Logo" class="logo-image">
+                            <div class="logo-text">
+                                <h1>Flips & Bidz</h1>
+                                <p class="tagline">Liquidation Auctions</p>
+                            </div>
+                        </a>
+                    </div>
+                    <ul class="nav-menu">
+                        <li><a href="index.html" class="nav-link">Home</a></li>
+                        <li><a href="https://flipsandbidz.hibid.com/" target="_blank" class="nav-link">Latest Auction</a></li>
+                        <li><a href="https://flipsandbidz.hibid.com/lots" target="_blank" class="nav-link">Inventory</a></li>
+                        <li><a href="https://flipsandbidz.hibid.com/auctions/past" target="_blank" class="nav-link">Past Auctions</a></li>
+                        <li><a href="faq.html" class="nav-link">FAQ</a></li>
+                        <li><a href="appointment.html" class="nav-link">Schedule Appointment</a></li>
+                        <li><a href="index.html#contact" class="nav-link">Contact</a></li>
+                    </ul>
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <section class="pallets-hero">
+        <div class="pallets-hero-overlay"></div>
+        <div class="container">
+            <div class="pallets-hero-content animate-on-scroll fade-in-up">
+                <div class="pallets-eyebrow">Wholesale liquidation inventory for Southern California resellers</div>
+                <h1>Truckloads &amp; Pallets, Amazon &amp; Lowe&apos;s Overstock.</h1>
+                <p>Source overstock, customer returns, shelf-pulls, and truckload opportunities by the pallet or full trailer. Ideal for resellers, discount stores, exporters, contractors, and warehouse buyers who need margin-rich inventory with fast local pickup.</p>
+                <div class="hero-buttons">
+                    <a href="#manifest-form" class="btn btn-primary">Request a Manifest</a>
+                    <a href="tel:6269443190" class="btn btn-secondary">Call (626) 944-3190</a>
+                </div>
+                <div class="pallets-trust-strip">
+                    <span>Amazon &amp; Lowe&apos;s overstock</span>
+                    <span>Local inspection in La Mirada</span>
+                    <span>Pallet to full trailer volume</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pallets-section pallets-workflow">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll fade-in-up">How It Works</h2>
+            <div class="steps-grid pallets-steps-grid">
+                <div class="step animate-on-scroll fade-in-up stagger-1">
+                    <div class="step-number">1</div>
+                    <h3>Request Manifest</h3>
+                    <p>Tell us what categories and buying volume you&apos;re looking for, and we&apos;ll share current availability.</p>
+                </div>
+                <div class="step animate-on-scroll fade-in-up stagger-2">
+                    <div class="step-number">2</div>
+                    <h3>Inspect On-Site</h3>
+                    <p>Visit our La Mirada warehouse to review pallets, verify grades, and inspect inventory before purchase.</p>
+                </div>
+                <div class="step animate-on-scroll fade-in-up stagger-3">
+                    <div class="step-number">3</div>
+                    <h3>Pay</h3>
+                    <p>Secure your load with the approved payment method and any required deposit once you&apos;re ready to buy.</p>
+                </div>
+                <div class="step animate-on-scroll fade-in-up stagger-4">
+                    <div class="step-number">4</div>
+                    <h3>Pickup or Freight</h3>
+                    <p>Arrange pickup, LTL, or full truckload freight depending on the size of your order and destination.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pallets-section pallets-categories">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll fade-in-up">Pallet Categories</h2>
+            <p class="section-subtitle animate-on-scroll fade-in-up stagger-2">Wholesale-ready categories with room for real warehouse photography as inventory rotates.</p>
+            <div class="categories-grid pallets-categories-grid">
+                <article class="category-card animate-on-scroll scale-in stagger-1">
+                    <div class="pallet-photo-placeholder">
+                        <span>TODO: replace with Tools &amp; Hardware pallet photo</span>
+                    </div>
+                    <h4>Tools &amp; Hardware</h4>
+                    <p>Power tools, hand tools, shop accessories, fasteners, batteries, chargers, and hardware-heavy mixed loads.</p>
+                    <div class="msrp-pill">Typical MSRP: $3,000 to $12,000+</div>
+                </article>
+                <article class="category-card animate-on-scroll scale-in stagger-2">
+                    <div class="pallet-photo-placeholder">
+                        <span>TODO: replace with Home Improvement pallet photo</span>
+                    </div>
+                    <h4>Home Improvement</h4>
+                    <p>Fixtures, lighting, flooring accessories, plumbing, electrical, doors, smart home, and Lowe&apos;s-style project inventory.</p>
+                    <div class="msrp-pill">Typical MSRP: $2,500 to $10,000+</div>
+                </article>
+                <article class="category-card animate-on-scroll scale-in stagger-3">
+                    <div class="pallet-photo-placeholder">
+                        <span>TODO: replace with General Merchandise pallet photo</span>
+                    </div>
+                    <h4>General Merchandise</h4>
+                    <p>Home goods, small appliances, electronics, seasonal goods, kitchenware, and high-turn consumer product assortments.</p>
+                    <div class="msrp-pill">Typical MSRP: $2,000 to $8,000+</div>
+                </article>
+                <article class="category-card animate-on-scroll scale-in stagger-4">
+                    <div class="pallet-photo-placeholder">
+                        <span>TODO: replace with Mixed/Variety pallet photo</span>
+                    </div>
+                    <h4>Mixed / Variety</h4>
+                    <p>Balanced blended loads for bin stores, flea market sellers, online resellers, and buyers testing multiple categories.</p>
+                    <div class="msrp-pill">Typical MSRP: varies by load</div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <section class="pallets-section pallets-grade-key">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll fade-in-up">Condition Grade Key</h2>
+            <div class="info-grid pallets-grade-grid">
+                <div class="info-card animate-on-scroll fade-in-up stagger-1">
+                    <h3>Customer Returns</h3>
+                    <p>Previously purchased items returned by customers. Packaging may be opened, and condition can range from like-new to incomplete.</p>
+                </div>
+                <div class="info-card animate-on-scroll fade-in-up stagger-2">
+                    <h3>Overstock</h3>
+                    <p>Excess inventory from retailers or distribution channels. Usually the cleanest grade and often the best fit for resale-ready programs.</p>
+                </div>
+                <div class="info-card animate-on-scroll fade-in-up stagger-3">
+                    <h3>Shelf-Pulls</h3>
+                    <p>Store-removed merchandise that may have packaging wear, stickers, or discontinued SKUs but was not necessarily sold to a consumer.</p>
+                </div>
+                <div class="info-card animate-on-scroll fade-in-up stagger-4">
+                    <h3>Salvage</h3>
+                    <p>Heavier risk inventory for experienced buyers. May include damaged, incomplete, or non-working items typically priced accordingly.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pallets-section manifest-section" id="manifest-form">
+        <div class="container">
+            <div class="contact-main-grid manifest-grid">
+                <div class="contact-form-wrapper manifest-form-card animate-on-scroll fade-in-left">
+                    <form class="contact-form manifest-form" id="manifestRequestForm">
+                        <h3>Request a Manifest</h3>
+                        <p class="manifest-subtitle">Tell us what you buy and we&apos;ll point you to matching pallet or truckload inventory.</p>
+                        <div class="form-row two-column-row">
+                            <div class="form-group">
+                                <input type="text" id="manifestName" name="manifestName" placeholder="Name*" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="manifestCompany" name="manifestCompany" placeholder="Company">
+                            </div>
+                        </div>
+                        <div class="form-row two-column-row">
+                            <div class="form-group">
+                                <input type="email" id="manifestEmail" name="manifestEmail" placeholder="Email*" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="tel" id="manifestPhone" name="manifestPhone" placeholder="Phone*" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Categories of Interest</label>
+                            <div class="multi-select-grid">
+                                <label class="multi-select-option"><input type="checkbox" name="manifestCategories" value="Tools"> <span>Tools</span></label>
+                                <label class="multi-select-option"><input type="checkbox" name="manifestCategories" value="Home Improvement"> <span>Home Improvement</span></label>
+                                <label class="multi-select-option"><input type="checkbox" name="manifestCategories" value="General Merch"> <span>General Merch</span></label>
+                                <label class="multi-select-option"><input type="checkbox" name="manifestCategories" value="Mixed"> <span>Mixed</span></label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="manifestVolume">Monthly Buying Volume</label>
+                            <select id="manifestVolume" name="manifestVolume" required>
+                                <option value="">Select monthly volume</option>
+                                <option value="<$2k">&lt;$2k</option>
+                                <option value="$2k-$10k">$2k–10k</option>
+                                <option value="$10k-$25k">$10k–25k</option>
+                                <option value="$25k+">$25k+</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="manifestNotes" name="manifestNotes" rows="5" placeholder="Notes, target manifests, preferred pickup timing, resale certificate status, freight needs, etc."></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Send Manifest Request</button>
+                        <p class="recaptcha-notice">This site is protected by reCAPTCHA and the Google <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.</p>
+                    </form>
+                </div>
+                <div class="visit-us-section manifest-sidecard animate-on-scroll fade-in-right">
+                    <h3>Wholesale Buyer Details</h3>
+                    <p class="visit-subtitle">Built for serious buyers who want margin, transparency, and fast turnarounds.</p>
+                    <div class="location-info">
+                        <h4>Warehouse &amp; Inspection</h4>
+                        <p class="address"><img src="icons/map-pin.svg" alt="" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;">15300 Valley View Avenue<br>La Mirada, CA 90638<br>United States</p>
+                        <p class="phone-contact"><img src="icons/phone.svg" alt="" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;"><a href="tel:6269443190">(626) 944-3190</a></p>
+                        <p class="email-contact"><img src="icons/mail.svg" alt="" style="width: 20px; height: 20px; vertical-align: middle; margin-right: 6px;"><a href="mailto:flipsnbidz@gmail.com">flipsnbidz@gmail.com</a></p>
+                    </div>
+                    <div class="business-hours">
+                        <h4>Buyer Notes</h4>
+                        <div class="hours-list">
+                            <div class="hour-item"><span class="day">Inspection</span><span class="time">Mon, Wed-Sun, 10 AM - 5 PM</span></div>
+                            <div class="hour-item"><span class="day">Pickup</span><span class="time">Scheduled pickup or freight coordination</span></div>
+                            <div class="hour-item"><span class="day">Documents</span><span class="time">Resale certificate accepted</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pallets-section pallets-faq">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll fade-in-up">Pallet Buyer FAQ</h2>
+            <div class="policy-accordion">
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>What is the minimum order?</span><span class="accordion-icon">+</span></button>
+                    <div class="accordion-content"><p>Minimum order size depends on the load. Some opportunities begin with a single pallet, while larger wholesale buys may require multiple pallets or a truckload commitment.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Do you offer LTL or FTL freight options?</span><span class="accordion-icon">+</span></button>
+                    <div class="accordion-content"><p>Yes. We can coordinate local pickup, LTL freight for palletized orders, or full truckload movement depending on quantity and destination.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Do you accept reseller or resale certificates?</span><span class="accordion-icon">+</span></button>
+                    <div class="accordion-content"><p>Yes, resale certificates are accepted for qualified buyers. Share your certificate when requesting a manifest so we can prepare the transaction correctly.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>Is a deposit required?</span><span class="accordion-icon">+</span></button>
+                    <div class="accordion-content"><p>Some loads require a deposit to reserve inventory, especially higher-volume or trailer-level purchases. We&apos;ll confirm deposit terms when we send your manifest.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>How long is the inspection window?</span><span class="accordion-icon">+</span></button>
+                    <div class="accordion-content"><p>Inspection is typically arranged during our standard warehouse hours before payment and pickup. Timing may vary based on incoming inventory and load turnover.</p></div>
+                </div>
+                <div class="accordion-item">
+                    <button class="accordion-header"><span>How does pickup work?</span><span class="accordion-icon">+</span></button>
+                    <div class="accordion-content"><p>Pickup is by appointment in La Mirada. Bring the right vehicle, straps, and crew, or let us know if you want freight coordination for palletized or full trailer orders.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Flips &amp; Bidz</h3>
+                    <p>Your trusted partner for quality liquidation auctions.</p>
+                    <div class="social-links">
+                        <a href="https://www.instagram.com/flips_n_bidz/" target="_blank" class="social-icon" aria-label="Instagram">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                        <a href="https://offerup.com/p/158714750" target="_blank" class="social-icon" aria-label="OfferUp">
+                            <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2.4c5.302 0 9.6 4.298 9.6 9.6s-4.298 9.6-9.6 9.6-9.6-4.298-9.6-9.6S6.698 2.4 12 2.4zm0 3.6c-3.314 0-6 2.686-6 6s2.686 6 6 6 6-2.686 6-6-2.686-6-6-6zm0 2.4c1.988 0 3.6 1.612 3.6 3.6s-1.612 3.6-3.6 3.6-3.6-1.612-3.6-3.6S10.012 8.4 12 8.4z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="https://flipsandbidz.hibid.com/" target="_blank">Latest Auction</a></li>
+                        <li><a href="https://flipsandbidz.hibid.com/lots" target="_blank">Inventory</a></li>
+                        <li><a href="https://flipsandbidz.hibid.com/auctions/past" target="_blank">Past Auctions</a></li>
+                        <li><a href="index.html#how-it-works">How It Works</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="index.html#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="terms.html">Terms &amp; Conditions</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li>📱 <a href="tel:6269443190">626-944-3190</a></li>
+                        <li>📧 <a href="mailto:flipsnbidz@gmail.com">flipsnbidz@gmail.com</a></li>
+                        <li>🌐 <a href="https://flipsandbidz.com">flipsandbidz.com</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Flips &amp; Bidz. All rights reserved. We reserve the right to refuse service to anyone.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="holiday-theme.js"></script>
+    <script src="script.js"></script>
+    <script src="pallets-script.js"></script>
+</body>
+</html>

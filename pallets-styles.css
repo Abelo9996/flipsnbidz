@@ -1,0 +1,224 @@
+.pallets-hero {
+    position: relative;
+    min-height: 88vh;
+    display: flex;
+    align-items: center;
+    margin-top: 70px;
+    background:
+        radial-gradient(circle at top left, rgba(245, 158, 11, 0.22), transparent 28%),
+        radial-gradient(circle at right center, rgba(37, 99, 235, 0.22), transparent 34%),
+        linear-gradient(135deg, #0f172a 0%, #172554 45%, #0b1120 100%);
+    overflow: hidden;
+}
+
+body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
+    margin-top: 120px;
+}
+
+.pallets-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.25), rgba(15, 23, 42, 0.7));
+}
+
+.pallets-hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 760px;
+    color: white;
+    padding: 5rem 0;
+}
+
+.pallets-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #fde68a;
+    padding: 0.55rem 1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    backdrop-filter: blur(10px);
+}
+
+.pallets-hero h1 {
+    font-size: clamp(2.8rem, 5vw, 4.6rem);
+    line-height: 1.05;
+    margin-bottom: 1.25rem;
+    text-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+.pallets-hero p {
+    font-size: 1.12rem;
+    line-height: 1.9;
+    color: rgba(255, 255, 255, 0.92);
+    max-width: 680px;
+    margin-bottom: 2rem;
+}
+
+.pallets-trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+}
+
+.pallets-trust-strip span,
+.msrp-pill {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: #e5e7eb;
+    border-radius: 999px;
+    padding: 0.7rem 1rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+
+.pallets-section {
+    padding: 5rem 0;
+}
+
+.pallets-workflow {
+    background: #ffffff;
+}
+
+.pallets-steps-grid {
+    margin-top: 3rem;
+}
+
+.pallets-categories {
+    background: var(--light-bg);
+}
+
+.pallets-categories-grid {
+    margin-top: 3rem;
+}
+
+.pallet-photo-placeholder {
+    min-height: 200px;
+    border-radius: 14px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    color: #64748b;
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    border: 2px dashed rgba(37, 99, 235, 0.22);
+    font-weight: 600;
+}
+
+.pallet-photo-placeholder span {
+    max-width: 220px;
+}
+
+.pallets-grade-key {
+    background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.pallets-grade-grid {
+    margin-top: 3rem;
+}
+
+.manifest-section {
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.08), rgba(245, 158, 11, 0.08));
+}
+
+.manifest-grid {
+    align-items: stretch;
+}
+
+.manifest-form-card,
+.manifest-sidecard {
+    border: 1px solid rgba(37, 99, 235, 0.08);
+}
+
+.manifest-subtitle {
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+}
+
+.two-column-row {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.multi-select-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.85rem;
+    margin-top: 0.75rem;
+}
+
+.multi-select-option {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    background: #f8fafc;
+    border: 1px solid rgba(37, 99, 235, 0.12);
+    border-radius: 12px;
+    padding: 0.95rem 1rem;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    font-weight: 500;
+}
+
+.multi-select-option:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.multi-select-option input {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary-color);
+}
+
+.manifest-sidecard .location-info {
+    border-bottom: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.pallets-faq {
+    background: #ffffff;
+}
+
+.pallets-faq .policy-accordion {
+    margin-top: 3rem;
+}
+
+@media (max-width: 900px) {
+    .two-column-row,
+    .multi-select-grid,
+    .manifest-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .pallets-hero {
+        min-height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .pallets-hero-content {
+        padding: 4rem 0;
+    }
+
+    .pallets-hero h1 {
+        font-size: 2.45rem;
+    }
+
+    .pallets-hero p {
+        font-size: 1rem;
+    }
+
+    .pallet-photo-placeholder {
+        min-height: 170px;
+    }
+}
