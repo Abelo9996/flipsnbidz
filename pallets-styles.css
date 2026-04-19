@@ -323,6 +323,7 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
 
 .pallets-grade-grid {
     margin-top: 3rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .manifest-section {
@@ -401,7 +402,8 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
     .pallets-categories-grid,
     .pallets-hero-grid,
     .pallets-visual-grid,
-    .pallets-hero-mini-features {
+    .pallets-hero-mini-features,
+    .pallets-grade-grid {
         grid-template-columns: 1fr;
     }
 
