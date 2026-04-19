@@ -427,7 +427,7 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
 }
 
 body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
-    min-height: calc(100vh - 110px);
+    min-height: calc(100vh - 40px);
 }
 
 /* Header & Navigation */
@@ -684,8 +684,8 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
 }
 
 .dual-path-hero {
-    min-height: calc(100vh - 70px);
-    padding: 5.4rem 0 3.5rem;
+    min-height: 100vh;
+    padding: 6rem 0 4rem;
 }
 
 .hero::before {
