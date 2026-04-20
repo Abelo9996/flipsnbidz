@@ -766,60 +766,60 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
     flex-direction: column;
     justify-content: space-between;
     gap: 0.7rem;
-    border-radius: 22px;
-    padding: 1.25rem;
-    min-height: 205px;
-    background: rgba(15, 23, 42, 0.92);
-    backdrop-filter: blur(14px);
-    box-shadow: 0 24px 70px rgba(15, 23, 42, 0.35);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 1.2rem;
+    min-height: 190px;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 10px 28px rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.45);
 }
 
 .auction-path {
-    background: linear-gradient(160deg, rgba(15, 23, 42, 0.86), rgba(30, 64, 175, 0.72));
+    background: rgba(255, 255, 255, 0.92);
 }
 
 .pallets-path {
-    background: linear-gradient(160deg, rgba(15, 23, 42, 0.86), rgba(124, 58, 237, 0.68));
+    background: rgba(255, 255, 255, 0.92);
 }
 
 .path-label {
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
-    font-size: 0.92rem;
-    font-weight: 800;
+    gap: 0.35rem;
+    font-size: 0.82rem;
+    font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.08em;
-    color: #e2e8f0;
-    margin-bottom: 0.6rem;
+    color: var(--primary-color);
+    margin-bottom: 0.45rem;
 }
 
 .dual-path-card h3 {
-    font-size: 1.35rem;
-    line-height: 1.14;
-    margin-bottom: 0.35rem;
-    max-width: 18ch;
+    font-size: 1.2rem;
+    line-height: 1.2;
+    margin-bottom: 0.3rem;
+    max-width: 20ch;
+    color: var(--text-dark);
 }
 
 .dual-path-card p {
-    color: rgba(255, 255, 255, 0.86);
-    line-height: 1.4;
+    color: var(--text-light);
+    line-height: 1.5;
     font-size: 0.88rem;
     max-width: 34ch;
 }
 
 .path-badge-new {
     position: absolute;
-    top: 1.4rem;
-    right: 1.4rem;
-    background: linear-gradient(135deg, #f97316, #facc15);
-    color: #111827;
-    font-size: 0.78rem;
-    font-weight: 800;
-    padding: 0.35rem 0.7rem;
+    top: 1rem;
+    right: 1rem;
+    background: #fef3c7;
+    color: #92400e;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.2rem 0.45rem;
     border-radius: 999px;
-    box-shadow: 0 10px 24px rgba(249, 115, 22, 0.35);
+    border: 1px solid rgba(245, 158, 11, 0.25);
 }
 
 
@@ -829,13 +829,13 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
 }
 
 .hero-cta-wholesale {
-    background: linear-gradient(135deg, #0f766e, #14b8a6);
+    background: var(--primary-color);
     color: white;
     border: none;
 }
 
 .hero-cta-wholesale:hover {
-    background: linear-gradient(135deg, #115e59, #0f766e);
+    background: var(--primary-dark);
     transform: translateY(-2px);
 }
 
