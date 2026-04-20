@@ -255,41 +255,44 @@ const revealObserver = new IntersectionObserver((entries) => {
 }, observerOptions);
 
 function applyScrollRevealTargets() {
-    const selectors = [
-        '.animate-on-scroll',
-        '.section-title',
-        '.section-subtitle',
-        '.feature-card',
-        '.step',
-        '.info-card',
-        '.category-card',
-        '.market-card',
-        '.industry-tag',
-        '.offer-highlight',
-        '.award-recognition-content',
-        '.award-badge-wrapper',
-        '.accordion-item',
-        '.terms-wrapper',
-        '.manifest-form-card',
-        '.manifest-sidecard',
-        '.contact-form',
-        '.contact-info',
-        '.footer-content > *'
+    const groupedSelectors = [
+        { selector: '.animate-on-scroll', animation: null },
+        { selector: 'section > .container > h1, section > .container > h2, section > .container > p', animation: 'fade-in-up' },
+        { selector: '.section-title, .section-subtitle, .offer-heading, .appointment-header, .faq-hero h1, .faq-subtitle, .terms-hero h1, .effective-date', animation: 'fade-in-up' },
+        { selector: '.hero-content > *, .pallets-hero-content > *, .supplier-visual-card, .appointment-grid, .faq-wrapper, .terms-wrapper', animation: 'fade-in-up' },
+        { selector: '.feature-card, .step, .info-card, .category-card, .market-card, .award-badge-wrapper, .faq-item, .terms-section, .terms-subsection, .contact-box, .footer-section, .calendar-section, .form-wrapper, .review-cta-card, .selected-appointment-info, .modal-content, .manifest-form-card, .manifest-sidecard', animation: 'fade-in-up' },
+        { selector: '.industries-list .industry-tag, .supplier-legend-item, .help-buttons > *, .terms-footer > *, .social-links a, .footer-bottom, .faq-notice, .faq-help-section, .privacy-guarantee, .contact-methods p', animation: 'fade-in-up' },
+        { selector: '.accordion-item, .policy-accordion .accordion-item, .faq-accordion .faq-item', animation: 'fade-in-up' }
     ];
 
-    const targets = document.querySelectorAll(selectors.join(','));
-    targets.forEach((el, index) => {
-        if (el.classList.contains('animate-on-scroll')) {
-            revealObserver.observe(el);
-            return;
-        }
+    const seen = new Set();
+    let count = 0;
 
-        el.classList.add('animate-on-scroll', 'fade-in-up');
-        el.style.animationDelay = `${Math.min((index % 6) * 0.08, 0.4)}s`;
-        revealObserver.observe(el);
+    groupedSelectors.forEach(group => {
+        const elements = document.querySelectorAll(group.selector);
+        elements.forEach((el, index) => {
+            if (seen.has(el)) return;
+            seen.add(el);
+
+            if (!el.classList.contains('animate-on-scroll')) {
+                el.classList.add('animate-on-scroll');
+                if (group.animation) el.classList.add(group.animation);
+            }
+
+            if (!el.classList.contains('fade-in') && !el.classList.contains('fade-in-up') && !el.classList.contains('fade-in-down') && !el.classList.contains('fade-in-left') && !el.classList.contains('fade-in-right') && !el.classList.contains('scale-in') && !el.classList.contains('slide-in-up')) {
+                el.classList.add(group.animation || 'fade-in-up');
+            }
+
+            if (!el.style.animationDelay) {
+                el.style.animationDelay = `${Math.min((index % 6) * 0.08, 0.4)}s`;
+            }
+
+            revealObserver.observe(el);
+            count += 1;
+        });
     });
 
-    console.log(`✨ Initialized scroll animations for ${targets.length} elements`);
+    console.log(`✨ Initialized scroll animations for ${count} elements`);
 }
 
 // Observe elements for animation
