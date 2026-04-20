@@ -21,11 +21,11 @@ if [ ! -d admin/node_modules ]; then
 fi
 
 echo "Starting Flips & Bidz site + admin..."
-echo "Backend/site: http://localhost:3000"
-echo "Admin:        http://localhost:3000/admin"
+echo "Backend/site: http://localhost:3003"
+echo "Admin:        http://localhost:3003/admin"
 echo
 
-auto_env_nextauth="http://localhost:3000/admin"
+auto_env_nextauth="http://localhost:3003/admin"
 export NEXTAUTH_URL="${NEXTAUTH_URL:-$auto_env_nextauth}"
 
 npm run dev
