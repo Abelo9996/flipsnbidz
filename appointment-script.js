@@ -12,9 +12,10 @@ let currentMonth = new Date().getMonth();
 let currentYear = new Date().getFullYear();
 let bookedTimeSlots = []; // Store booked time slots from database
 
-// Business hours: Wednesday-Monday, 10 AM - 5 PM (15-minute slots)
+// Business hours: Wednesday-Monday, 10 AM - 5 PM weekdays, 11 AM - 5 PM weekends (15-minute slots)
 const businessHours = {
-    start: 10, // 10 AM
+    start: 10, // Weekday start: 10 AM
+    weekendStart: 11, // Saturday/Sunday start: 11 AM
     end: 17,   // 5 PM
     closedDays: [2], // Tuesday (0 = Sunday, 1 = Monday, 2 = Tuesday, etc.)
     closedDates: [
@@ -170,7 +171,10 @@ async function renderTimeSlots(date) {
     timeSlotsContainer.innerHTML = '';
     
     // Generate 15-minute time slots
-    for (let hour = businessHours.start; hour < businessHours.end; hour++) {
+    const dayOfWeek = date.getDay();
+    const startHour = (dayOfWeek === 0 || dayOfWeek === 6) ? businessHours.weekendStart : businessHours.start;
+
+    for (let hour = startHour; hour < businessHours.end; hour++) {
         for (let minutes = 0; minutes < 60; minutes += 15) {
             const timeSlot = document.createElement('div');
             timeSlot.className = 'time-slot';
