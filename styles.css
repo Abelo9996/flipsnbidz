@@ -425,11 +425,7 @@ body:has(.announcement-banner-link:not(.hidden)) .hero {
     margin-top: 40px;
 }
 
-body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
-    min-height: calc(100vh - 40px);
-}
-
-/* Header & Navigation */
+body:has(.announcement-banner-link:not(.hidden)) /* Header & Navigation */
 
 .navbar {
     padding: 1rem 0;
@@ -645,19 +641,6 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
         font-size: 0.58rem;
     }
 
-    .dual-path-grid {
-        grid-template-columns: 1fr;
-        max-width: 380px;
-    }
-
-    .dual-path-card {
-        min-height: 0;
-    }
-
-    .dual-path-card h3 {
-        max-width: none;
-    }
-
     .stats-bar {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -729,16 +712,6 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
     animation: fadeInUp 1s ease;
 }
 
-.dual-path-content {
-    text-align: left;
-}
-
-.hero-unified-copy {
-    max-width: 980px;
-    margin: 0 auto 1.25rem;
-    text-align: center;
-}
-
 .dual-path-kicker {
     display: inline-block;
     background: rgba(255, 255, 255, 0.14);
@@ -748,140 +721,9 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
     padding: 0.42rem 0.92rem;
     font-size: 0.86rem;
     font-weight: 700;
-    margin-bottom: 0.7rem;
+    margin-bottom: 0.9rem;
 }
 
-.dual-path-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(320px, 360px));
-    gap: 1rem;
-    align-items: stretch;
-    justify-content: center;
-    max-width: 760px;
-    margin: 0 auto;
-}
-
-.dual-path-card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 0.6rem;
-    border-radius: 12px;
-    padding: 1rem;
-    min-height: 170px;
-    background: rgba(15, 23, 42, 0.42);
-    box-shadow: 0 8px 24px rgba(15, 23, 42, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(4px);
-}
-
-.auction-path {
-    background: rgba(15, 23, 42, 0.44);
-}
-
-.pallets-path {
-    background: rgba(15, 23, 42, 0.4);
-}
-
-.path-label {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
-    font-size: 0.74rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: rgba(226, 232, 240, 0.8);
-    margin-bottom: 0.3rem;
-}
-
-.dual-path-card h3 {
-    font-size: 1.05rem;
-    line-height: 1.22;
-    margin-bottom: 0.2rem;
-    max-width: 22ch;
-    color: #ffffff;
-}
-
-.dual-path-card p {
-    color: rgba(226, 232, 240, 0.82);
-    line-height: 1.45;
-    font-size: 0.82rem;
-    max-width: 30ch;
-}
-
-.path-badge-new {
-    position: absolute;
-    top: 0.85rem;
-    right: 0.85rem;
-    background: rgba(245, 158, 11, 0.16);
-    color: #fcd34d;
-    font-size: 0.62rem;
-    font-weight: 700;
-    padding: 0.16rem 0.38rem;
-    border-radius: 999px;
-    border: 1px solid rgba(245, 158, 11, 0.18);
-}
-
-
-.hero-cta-equal {
-    min-height: 46px;
-    margin-top: 0.25rem;
-}
-
-.hero-cta-wholesale {
-    background: var(--primary-color);
-    color: white;
-    border: none;
-}
-
-.hero-cta-wholesale:hover {
-    background: var(--primary-dark);
-    transform: translateY(-2px);
-}
-
-.compact-timer {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 14px;
-    padding: 0.7rem 0.8rem;
-}
-
-.compact-timer .timer-label {
-    margin-bottom: 0.35rem;
-    font-size: 0.78rem;
-}
-
-.compact-timer .timer-display {
-    justify-content: flex-start;
-    gap: 0.35rem;
-}
-
-.compact-timer .timer-unit {
-    min-width: 50px;
-}
-
-.compact-timer .timer-value {
-    font-size: 1.2rem;
-}
-
-.compact-timer-inline .timer-display-inline {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-}
-
-.timer-inline-group {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.15rem;
-}
-
-.timer-inline-group .timer-text {
-    font-size: 0.78rem;
-    text-transform: lowercase;
-}
 
 .hero-title {
     font-size: 3rem;
@@ -2399,11 +2241,6 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .dual-path-hero {
-        min-height: auto;
-        padding: 5.25rem 0 3.2rem;
-    }
-
     .award-recognition-compact {
         padding: 2.4rem 0 3rem 0;
     }
@@ -2420,25 +2257,6 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
 
     .stats-bar-item {
         padding: 1rem;
-    }
-
-    .dual-path-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-        max-width: none;
-    }
-
-    .dual-path-card {
-        padding: 1.5rem;
-    }
-
-    .dual-path-card h3 {
-        font-size: 1.55rem;
-    }
-
-    .compact-timer .timer-display {
-        justify-content: center;
-        flex-wrap: wrap;
     }
 
     /* Announcement Banner Mobile */
