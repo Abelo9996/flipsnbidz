@@ -1,16 +1,3 @@
-document.body.classList.add('preload');
-
-window.addEventListener('load', () => {
-    requestAnimationFrame(() => {
-        document.body.classList.remove('preload');
-        document.body.classList.add('page-ready', 'page-enter');
-
-        window.setTimeout(() => {
-            document.body.classList.remove('page-enter');
-        }, 1100);
-    });
-});
-
 // Announcement Banner
 const announcementBanner = document.getElementById('announcementBanner');
 const closeBanner = document.getElementById('closeBanner');
@@ -254,29 +241,60 @@ document.head.appendChild(style);
 
 // Intersection Observer for scroll animations
 const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
+    threshold: 0.12,
+    rootMargin: '0px 0px -12% 0px'
 };
 
-const observer = new IntersectionObserver((entries) => {
+const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('animated');
-            // Unobserve after animation for better performance
-            observer.unobserve(entry.target);
+            revealObserver.unobserve(entry.target);
         }
     });
 }, observerOptions);
 
+function applyScrollRevealTargets() {
+    const selectors = [
+        '.animate-on-scroll',
+        '.section-title',
+        '.section-subtitle',
+        '.feature-card',
+        '.step',
+        '.info-card',
+        '.category-card',
+        '.market-card',
+        '.industry-tag',
+        '.offer-highlight',
+        '.award-recognition-content',
+        '.award-badge-wrapper',
+        '.accordion-item',
+        '.terms-wrapper',
+        '.manifest-form-card',
+        '.manifest-sidecard',
+        '.contact-form',
+        '.contact-info',
+        '.footer-content > *'
+    ];
+
+    const targets = document.querySelectorAll(selectors.join(','));
+    targets.forEach((el, index) => {
+        if (el.classList.contains('animate-on-scroll')) {
+            revealObserver.observe(el);
+            return;
+        }
+
+        el.classList.add('animate-on-scroll', 'fade-in-up');
+        el.style.animationDelay = `${Math.min((index % 6) * 0.08, 0.4)}s`;
+        revealObserver.observe(el);
+    });
+
+    console.log(`✨ Initialized scroll animations for ${targets.length} elements`);
+}
+
 // Observe elements for animation
 document.addEventListener('DOMContentLoaded', () => {
-    // Select all elements with animate-on-scroll class
-    const animateElements = document.querySelectorAll('.animate-on-scroll');
-    animateElements.forEach(el => {
-        observer.observe(el);
-    });
-    
-    console.log(`✨ Initialized scroll animations for ${animateElements.length} elements`);
+    applyScrollRevealTargets();
 });
 
 // Phone number formatter (optional enhancement)

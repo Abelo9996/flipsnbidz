@@ -37,69 +37,6 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-body.preload {
-    opacity: 0;
-}
-
-body.page-ready {
-    opacity: 1;
-    transition: opacity 0.45s ease;
-}
-
-body.page-enter {
-    animation: pageEnter 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-body.page-enter .header {
-    animation: headerFloatIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-body.page-enter main,
-body.page-enter section,
-body.page-enter .terms-hero,
-body.page-enter .terms-content,
-body.page-enter .privacy-hero,
-body.page-enter .privacy-content,
-body.page-enter .faq-hero,
-body.page-enter .appointment-hero,
-body.page-enter .bid-container,
-body.page-enter .chatbot-container,
-body.page-enter .footer {
-    animation: sectionRiseIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-
-body.page-enter section:nth-of-type(1),
-body.page-enter .terms-hero,
-body.page-enter .privacy-hero,
-body.page-enter .faq-hero,
-body.page-enter .appointment-hero,
-body.page-enter .bid-container,
-body.page-enter .chatbot-container {
-    animation-delay: 0.06s;
-}
-
-body.page-enter section:nth-of-type(2),
-body.page-enter .terms-content,
-body.page-enter .privacy-content {
-    animation-delay: 0.14s;
-}
-
-body.page-enter section:nth-of-type(3) {
-    animation-delay: 0.22s;
-}
-
-body.page-enter section:nth-of-type(4) {
-    animation-delay: 0.3s;
-}
-
-body.page-enter section:nth-of-type(5) {
-    animation-delay: 0.38s;
-}
-
-body.page-enter section:nth-of-type(6),
-body.page-enter .footer {
-    animation-delay: 0.46s;
-}
 
 /* Responsive Images & Embeds */
 img,
@@ -317,41 +254,6 @@ body {
 .announcement-banner-link:active .announcement-banner {
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
     filter: saturate(1.02) brightness(0.99);
-}
-
-@keyframes pageEnter {
-    from {
-        opacity: 0;
-        transform: translateY(14px);
-        filter: blur(6px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-        filter: blur(0);
-    }
-}
-
-@keyframes headerFloatIn {
-    from {
-        opacity: 0;
-        transform: translateY(-18px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes sectionRiseIn {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 @keyframes slideDown {
