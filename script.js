@@ -1,3 +1,16 @@
+document.body.classList.add('preload');
+
+window.addEventListener('load', () => {
+    requestAnimationFrame(() => {
+        document.body.classList.remove('preload');
+        document.body.classList.add('page-ready', 'page-enter');
+
+        window.setTimeout(() => {
+            document.body.classList.remove('page-enter');
+        }, 1100);
+    });
+});
+
 // Announcement Banner
 const announcementBanner = document.getElementById('announcementBanner');
 const closeBanner = document.getElementById('closeBanner');
@@ -28,25 +41,28 @@ const hamburger = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav-menu');
 const navLinks = document.querySelectorAll('.nav-link');
 
-hamburger.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-    
-    // Animate hamburger to X
-    const spans = hamburger.querySelectorAll('span');
-    if (navMenu.classList.contains('active')) {
-        spans[0].style.transform = 'rotate(45deg) translate(7px, 7px)';
-        spans[1].style.opacity = '0';
-        spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
-    } else {
-        spans[0].style.transform = 'none';
-        spans[1].style.opacity = '1';
-        spans[2].style.transform = 'none';
-    }
-});
+if (hamburger && navMenu) {
+    hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+        
+        // Animate hamburger to X
+        const spans = hamburger.querySelectorAll('span');
+        if (navMenu.classList.contains('active')) {
+            spans[0].style.transform = 'rotate(45deg) translate(7px, 7px)';
+            spans[1].style.opacity = '0';
+            spans[2].style.transform = 'rotate(-45deg) translate(7px, -7px)';
+        } else {
+            spans[0].style.transform = 'none';
+            spans[1].style.opacity = '1';
+            spans[2].style.transform = 'none';
+        }
+    });
+}
 
 // Close mobile menu when clicking on a link
 navLinks.forEach(link => {
     link.addEventListener('click', () => {
+        if (!navMenu || !hamburger) return;
         navMenu.classList.remove('active');
         const spans = hamburger.querySelectorAll('span');
         spans[0].style.transform = 'none';
@@ -96,10 +112,12 @@ window.addEventListener('scroll', () => {
 
     // Add shadow to header on scroll
     const header = document.querySelector('.header');
-    if (window.scrollY > 100) {
-        header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
-    } else {
-        header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+    if (header) {
+        if (window.scrollY > 100) {
+            header.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.2)';
+        } else {
+            header.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.1)';
+        }
     }
 });
 
