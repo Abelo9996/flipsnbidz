@@ -204,63 +204,56 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
     font-size: 1.3rem;
 }
 
-.supplier-orbit-wrap {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 1.35rem;
+.supplier-pie-layout {
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+    gap: 1.4rem;
+    align-items: center;
 }
 
-.supplier-orbit-chart {
-    width: min(100%, 320px);
+.supplier-pie-wrap {
+    display: flex;
+    justify-content: center;
+}
+
+.supplier-pie-chart {
+    width: min(100%, 270px);
     aspect-ratio: 1;
     border-radius: 50%;
     position: relative;
     background: conic-gradient(
-        #f59e0b 0deg 72deg,
-        #3b82f6 72deg 144deg,
-        #14b8a6 144deg 216deg,
-        #8b5cf6 216deg 288deg,
-        #ec4899 288deg 360deg
+        #f59e0b 0deg 79.2deg,
+        #3b82f6 79.2deg 165.6deg,
+        #14b8a6 165.6deg 230.4deg,
+        #8b5cf6 230.4deg 302.4deg,
+        #ec4899 302.4deg 360deg
     );
-    box-shadow: inset 0 0 0 18px rgba(15, 23, 42, 0.22), 0 16px 40px rgba(15, 23, 42, 0.3);
+    box-shadow: 0 22px 55px rgba(15, 23, 42, 0.32);
 }
 
-.supplier-orbit-chart::before {
+.supplier-pie-chart::before {
     content: '';
     position: absolute;
-    inset: 23%;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.3), transparent 34%);
+    opacity: 0.65;
+}
+
+.supplier-pie-chart::after {
+    content: '';
+    position: absolute;
+    inset: 18%;
     border-radius: 50%;
     background: rgba(15, 23, 42, 0.9);
-    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.08);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
-.supplier-segment {
+.supplier-pie-core {
     position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    font-size: 0.78rem;
-    font-weight: 700;
-    text-shadow: 0 2px 8px rgba(15, 23, 42, 0.85);
-}
-
-.supplier-segment span {
-    position: absolute;
-}
-
-.supplier-segment-amazon span { top: 11%; left: 50%; transform: translateX(-50%); }
-.supplier-segment-lowes span { top: 31%; right: 6%; }
-.supplier-segment-home span { bottom: 18%; right: 12%; }
-.supplier-segment-general span { bottom: 18%; left: 10%; }
-.supplier-segment-mixed span { top: 31%; left: 6%; }
-
-.supplier-orbit-core {
-    position: absolute;
-    inset: 33%;
-    border-radius: 50%;
+    inset: 29%;
     z-index: 1;
+    border-radius: 50%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -269,11 +262,11 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
     color: #ffffff;
 }
 
-.supplier-orbit-core strong {
+.supplier-pie-core strong {
     font-size: 1.05rem;
 }
 
-.supplier-orbit-core span {
+.supplier-pie-core span {
     font-size: 0.82rem;
     color: #cbd5e1;
 }
@@ -284,12 +277,26 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
     gap: 0.7rem 1rem;
 }
 
+.supplier-legend-rich {
+    grid-template-columns: 1fr;
+}
+
 .supplier-legend-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 0.55rem;
+    gap: 0.65rem;
     color: #e2e8f0;
-    font-size: 0.88rem;
+    font-size: 0.9rem;
+    background: rgba(15, 23, 42, 0.38);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    padding: 0.7rem 0.85rem;
+}
+
+.supplier-legend-item strong {
+    color: #ffffff;
+    font-size: 0.86rem;
 }
 
 .supplier-dot {
@@ -500,7 +507,8 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
     .pallets-categories-grid,
     .pallets-hero-grid,
     .pallets-grade-grid,
-    .supplier-legend {
+    .supplier-legend,
+    .supplier-pie-layout {
         grid-template-columns: 1fr;
     }
 
@@ -540,12 +548,8 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
         width: 100%;
     }
 
-    .supplier-orbit-chart {
-        width: min(100%, 280px);
-    }
-
-    .supplier-segment {
-        font-size: 0.7rem;
+    .supplier-pie-chart {
+        width: min(100%, 260px);
     }
 
     .pallets-section {
