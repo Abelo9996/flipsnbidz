@@ -291,15 +291,15 @@ function applyScrollRevealTargets() {
 
             const rect = el.getBoundingClientRect();
             const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-            const revealStart = viewportHeight * 0.8;
-            const shouldWaitForScroll = rect.top > revealStart;
+            const aboveViewport = rect.bottom <= 0;
+            const alreadyVisible = rect.top < viewportHeight && rect.bottom > 0;
 
-            if (shouldWaitForScroll) {
-                el.classList.add('reveal-pending');
-                revealObserver.observe(el);
-            } else {
+            if (aboveViewport || alreadyVisible) {
                 el.classList.remove('reveal-pending');
                 el.classList.add('animated');
+            } else {
+                el.classList.add('reveal-pending');
+                revealObserver.observe(el);
             }
 
             count += 1;
