@@ -19,9 +19,4 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
-    
-    // Optional: Open first FAQ by default
-    if (faqItems.length > 0) {
-        faqItems[0].classList.add('active');
-    }
 });
