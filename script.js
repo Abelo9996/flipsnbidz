@@ -241,13 +241,14 @@ document.head.appendChild(style);
 
 // Intersection Observer for scroll animations
 const observerOptions = {
-    threshold: 0.12,
-    rootMargin: '0px 0px -12% 0px'
+    threshold: 0.2,
+    rootMargin: '0px 0px -8% 0px'
 };
 
 const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        const hasEnteredEnough = entry.isIntersecting && entry.intersectionRatio >= 0.2;
+        if (hasEnteredEnough) {
             entry.target.classList.add('animated');
             revealObserver.unobserve(entry.target);
         }
@@ -287,7 +288,16 @@ function applyScrollRevealTargets() {
                 el.style.animationDelay = `${Math.min((index % 6) * 0.08, 0.4)}s`;
             }
 
-            revealObserver.observe(el);
+            const rect = el.getBoundingClientRect();
+            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            const isAboveTheFold = rect.top < viewportHeight * 0.55;
+
+            if (isAboveTheFold) {
+                el.classList.add('animated');
+            } else {
+                revealObserver.observe(el);
+            }
+
             count += 1;
         });
     });
