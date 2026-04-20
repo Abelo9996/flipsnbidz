@@ -765,10 +765,10 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    gap: 0.8rem;
+    gap: 0.7rem;
     border-radius: 22px;
-    padding: 1.4rem;
-    min-height: 250px;
+    padding: 1.25rem;
+    min-height: 205px;
     background: rgba(15, 23, 42, 0.92);
     backdrop-filter: blur(14px);
     box-shadow: 0 24px 70px rgba(15, 23, 42, 0.35);
@@ -796,17 +796,17 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
 }
 
 .dual-path-card h3 {
-    font-size: 1.45rem;
+    font-size: 1.35rem;
     line-height: 1.14;
-    margin-bottom: 0.45rem;
+    margin-bottom: 0.35rem;
     max-width: 18ch;
 }
 
 .dual-path-card p {
     color: rgba(255, 255, 255, 0.86);
-    line-height: 1.45;
-    font-size: 0.9rem;
-    max-width: 38ch;
+    line-height: 1.4;
+    font-size: 0.88rem;
+    max-width: 34ch;
 }
 
 .path-badge-new {
@@ -822,54 +822,10 @@ body:has(.announcement-banner-link:not(.hidden)) .dual-path-hero {
     box-shadow: 0 10px 24px rgba(249, 115, 22, 0.35);
 }
 
-.dual-path-inline-metrics {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.65rem;
-}
-
-.dual-path-inline-metrics span {
-    display: inline-flex;
-    align-items: center;
-    padding: 0.38rem 0.7rem;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.78rem;
-    font-weight: 600;
-    line-height: 1.2;
-}
-
-.pallet-card-anchor {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.65rem;
-}
-
-.pallet-anchor-stat {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 14px;
-    padding: 0.8rem;
-}
-
-.pallet-anchor-stat strong {
-    display: block;
-    color: #ffffff;
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
-}
-
-.pallet-anchor-stat span {
-    display: block;
-    color: rgba(255, 255, 255, 0.82);
-    font-size: 0.76rem;
-    line-height: 1.35;
-}
 
 .hero-cta-equal {
-    min-height: 48px;
+    min-height: 46px;
+    margin-top: 0.25rem;
 }
 
 .hero-cta-wholesale {
