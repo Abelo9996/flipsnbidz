@@ -180,20 +180,11 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
     margin-bottom: 0.35rem;
 }
 
-.pallets-highlight-card span,
-.msrp-pill {
+.pallets-highlight-card span {
     display: block;
     color: #e5e7eb;
     font-size: 0.88rem;
     line-height: 1.5;
-}
-
-.msrp-pill {
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 999px;
-    padding: 0.7rem 1rem;
-    font-weight: 600;
 }
 
 .pallets-hero-visual {
@@ -257,6 +248,31 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
     padding: 0.75rem;
 }
 
+.pallet-preview-photo {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.pallet-preview-photo::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.12), rgba(15, 23, 42, 0.62));
+}
+
+.pallet-preview-photo {
+    position: relative;
+    z-index: 0;
+}
+
+.pallet-preview-photo > * {
+    position: relative;
+    z-index: 1;
+}
+
 .pallet-preview-tile strong {
     display: block;
     color: #ffffff;
@@ -315,6 +331,22 @@ body:has(.announcement-banner-link:not(.hidden)) .pallets-hero {
 
 .pallet-photo-placeholder span {
     max-width: 220px;
+}
+
+.pallet-photo-real {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.pallet-photo-real::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(15, 23, 42, 0.08), rgba(15, 23, 42, 0.28));
 }
 
 .pallets-grade-key {
