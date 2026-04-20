@@ -126,8 +126,12 @@ object {
 
 /* Animation Classes */
 .animate-on-scroll {
-    opacity: 0;
+    opacity: 1;
     transition: none;
+}
+
+.animate-on-scroll.reveal-pending {
+    opacity: 0;
 }
 
 .animate-on-scroll.animated {

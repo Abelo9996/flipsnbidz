@@ -249,6 +249,7 @@ const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
         const hasEnteredEnough = entry.isIntersecting && entry.intersectionRatio >= 0.2;
         if (hasEnteredEnough) {
+            entry.target.classList.remove('reveal-pending');
             entry.target.classList.add('animated');
             revealObserver.unobserve(entry.target);
         }
@@ -260,7 +261,7 @@ function applyScrollRevealTargets() {
         { selector: '.animate-on-scroll', animation: null },
         { selector: 'section > .container > h1, section > .container > h2, section > .container > p', animation: 'fade-in-up' },
         { selector: '.section-title, .section-subtitle, .offer-heading, .appointment-header, .faq-hero h1, .faq-subtitle, .terms-hero h1, .effective-date', animation: 'fade-in-up' },
-        { selector: '.hero-content > *, .pallets-hero-content > *, .supplier-visual-card, .appointment-grid, .faq-wrapper, .terms-wrapper', animation: 'fade-in-up' },
+        { selector: '.hero-content > *, .pallets-hero-content > *, .supplier-visual-card', animation: 'fade-in-up' },
         { selector: '.feature-card, .step, .info-card, .category-card, .market-card, .award-badge-wrapper, .faq-item, .terms-section, .terms-subsection, .contact-box, .footer-section, .calendar-section, .form-wrapper, .review-cta-card, .selected-appointment-info, .modal-content, .manifest-form-card, .manifest-sidecard', animation: 'fade-in-up' },
         { selector: '.industries-list .industry-tag, .supplier-legend-item, .help-buttons > *, .terms-footer > *, .social-links a, .footer-bottom, .faq-notice, .faq-help-section, .privacy-guarantee, .contact-methods p', animation: 'fade-in-up' },
         { selector: '.accordion-item, .policy-accordion .accordion-item, .faq-accordion .faq-item', animation: 'fade-in-up' }
@@ -290,12 +291,15 @@ function applyScrollRevealTargets() {
 
             const rect = el.getBoundingClientRect();
             const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-            const isAboveTheFold = rect.top < viewportHeight * 0.55;
+            const revealStart = viewportHeight * 0.8;
+            const shouldWaitForScroll = rect.top > revealStart;
 
-            if (isAboveTheFold) {
-                el.classList.add('animated');
-            } else {
+            if (shouldWaitForScroll) {
+                el.classList.add('reveal-pending');
                 revealObserver.observe(el);
+            } else {
+                el.classList.remove('reveal-pending');
+                el.classList.add('animated');
             }
 
             count += 1;
