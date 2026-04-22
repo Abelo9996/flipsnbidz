@@ -13,6 +13,26 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Live Update Banner -->
+    <a href="https://flipsandbidz.hibid.com/" target="_blank" class="announcement-banner-link" id="announcementBanner">
+        <div class="announcement-banner">
+            <div class="announcement-content">
+                <span class="live-indicator">
+                    <span class="live-dot"></span>
+                    <span class="live-text">LIVE</span>
+                </span>
+                <p class="announcement-message">
+                    <strong>We are live!</strong> Our auction lots start to close on Sunday at 6PM Pacific Time. Click to view!
+                </p>
+                <button class="banner-close" id="closeBanner" aria-label="Close banner" onclick="event.preventDefault(); event.stopPropagation();">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path d="M12 4L4 12M4 4L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </a>
+
     <!-- Header -->
     <header class="header">
         <nav class="navbar">
