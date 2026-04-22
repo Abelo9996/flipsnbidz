@@ -25,6 +25,12 @@ html {
     --success: #10b981;
     --warning: #f59e0b;
     --danger: #ef4444;
+    --reveal-duration: 720ms;
+    --reveal-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --reveal-distance: 24px;
+    --reveal-scale: 0.965;
+    --reveal-delay: 0ms;
+    --reveal-child-delay: 90ms;
 }
 
 body {
@@ -48,144 +54,79 @@ object {
     height: auto;
 }
 
-/* Page Load Animations */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes fadeInLeft {
-    from {
-        opacity: 0;
-        transform: translateX(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes fadeInRight {
-    from {
-        opacity: 0;
-        transform: translateX(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateX(0);
-    }
-}
-
-@keyframes scaleIn {
-    from {
-        opacity: 0;
-        transform: scale(0.9);
-    }
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes slideInUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Animation Classes */
-.animate-on-scroll {
-    opacity: 1;
-    transition: none;
-}
-
-.animate-on-scroll.reveal-pending {
+/* Scroll Reveal System */
+[data-animate] {
+    --reveal-translate-x: 0px;
+    --reveal-translate-y: 0px;
     opacity: 0;
+    transform: translate3d(var(--reveal-translate-x), var(--reveal-translate-y), 0) scale(var(--reveal-scale));
+    transition:
+        opacity var(--reveal-duration) var(--reveal-ease) var(--reveal-delay),
+        transform var(--reveal-duration) var(--reveal-ease) var(--reveal-delay);
+    will-change: opacity, transform;
 }
 
-.animate-on-scroll.animated {
-    animation-duration: 0.8s;
-    animation-fill-mode: both;
-    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+[data-animate="fade-in"] {
+    --reveal-translate-y: 0px;
+    --reveal-scale: 1;
 }
 
-.fade-in {
-    animation-name: fadeIn;
+[data-animate="fade-up"] {
+    --reveal-translate-y: var(--reveal-distance);
+    --reveal-scale: 1;
 }
 
-.fade-in-up {
-    animation-name: fadeInUp;
+[data-animate="slide-left"] {
+    --reveal-translate-x: var(--reveal-distance);
+    --reveal-scale: 1;
 }
 
-.fade-in-down {
-    animation-name: fadeInDown;
+[data-animate="slide-right"] {
+    --reveal-translate-x: calc(var(--reveal-distance) * -1);
+    --reveal-scale: 1;
 }
 
-.fade-in-left {
-    animation-name: fadeInLeft;
+[data-animate="scale-in"] {
+    --reveal-translate-y: 12px;
 }
 
-.fade-in-right {
-    animation-name: fadeInRight;
+[data-animate].is-revealed {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
 }
 
-.scale-in {
-    animation-name: scaleIn;
+[data-stagger-children] > * {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+    transition:
+        opacity var(--reveal-duration) var(--reveal-ease),
+        transform var(--reveal-duration) var(--reveal-ease);
+    transition-delay: calc(var(--reveal-delay) + (var(--reveal-child-delay) * var(--reveal-index, 0)));
 }
 
-.slide-in-up {
-    animation-name: slideInUp;
+[data-stagger-children].is-revealed > * {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
 }
 
-/* Stagger delays for multiple elements */
-.stagger-1 { animation-delay: 0.1s; }
-.stagger-2 { animation-delay: 0.2s; }
-.stagger-3 { animation-delay: 0.3s; }
-.stagger-4 { animation-delay: 0.4s; }
-.stagger-5 { animation-delay: 0.5s; }
-.stagger-6 { animation-delay: 0.6s; }
-.stagger-7 { animation-delay: 0.7s; }
-.stagger-8 { animation-delay: 0.8s; }
-
-/* Fast animations for smaller elements */
-.animate-fast {
-    animation-duration: 0.5s !important;
+[data-animate].reveal-reduced-motion,
+[data-animate].reveal-reduced-motion > * {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
 }
 
-/* Slow animations for hero elements */
-.animate-slow {
-    animation-duration: 1.2s !important;
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    [data-animate],
+    [data-stagger-children] > * {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+    }
 }
 
 iframe {

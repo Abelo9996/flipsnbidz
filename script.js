@@ -239,81 +239,86 @@ style.textContent = `
 `;
 document.head.appendChild(style);
 
-// Intersection Observer for scroll animations
-const observerOptions = {
-    threshold: 0.2,
-    rootMargin: '0px 0px -8% 0px'
-};
-
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        const hasEnteredEnough = entry.isIntersecting && entry.intersectionRatio >= 0.2;
-        if (hasEnteredEnough) {
-            entry.target.classList.remove('reveal-pending');
-            entry.target.classList.add('animated');
-            revealObserver.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-function applyScrollRevealTargets() {
-    const groupedSelectors = [
-        { selector: '.animate-on-scroll', animation: null },
-        { selector: 'section > .container > h1, section > .container > h2, section > .container > p', animation: 'fade-in-up' },
-        { selector: '.section-title, .section-subtitle, .offer-heading, .appointment-header, .faq-hero h1, .faq-subtitle, .terms-hero h1, .effective-date', animation: 'fade-in-up' },
-        { selector: '.hero-content > *, .pallets-hero-content > *, .supplier-visual-card', animation: 'fade-in-up' },
-        { selector: '.feature-card, .step, .info-card, .category-card, .market-card, .award-badge-wrapper, .faq-item, .terms-section, .terms-subsection, .contact-box, .footer-section, .calendar-section, .form-wrapper, .review-cta-card, .selected-appointment-info, .modal-content, .manifest-form-card, .manifest-sidecard', animation: 'fade-in-up' },
-        { selector: '.industries-list .industry-tag, .supplier-legend-item, .help-buttons > *, .terms-footer > *, .social-links a, .footer-bottom, .faq-notice, .faq-help-section, .privacy-guarantee, .contact-methods p', animation: 'fade-in-up' },
-        { selector: '.accordion-item, .policy-accordion .accordion-item, .faq-accordion .faq-item', animation: 'fade-in-up' }
+function configureScrollReveal(root = document) {
+    const groups = [
+        { selector: '.hero-content > *', animation: 'fade-up' },
+        { selector: '.award-recognition-content', animation: 'fade-up' },
+        { selector: '.awards-display', animation: 'fade-in', stagger: 120 },
+        { selector: '.award-text > *', animation: 'fade-up' },
+        { selector: '.section-title, .section-subtitle, .offer-heading, .highlight-content > h3, .highlight-content > p, .appointment-header > *, .faq-hero .container > *, .terms-hero .container > *', animation: 'fade-up' },
+        { selector: '.categories-grid', animation: 'fade-in', stagger: 90 },
+        { selector: '.markets-grid', animation: 'fade-in', stagger: 90 },
+        { selector: '.features-grid', animation: 'fade-in', stagger: 90 },
+        { selector: '.steps-grid', animation: 'fade-in', stagger: 90 },
+        { selector: '.info-grid', animation: 'fade-in', stagger: 90 },
+        { selector: '.industries-list', animation: 'fade-in', stagger: 70 },
+        { selector: '.offer-highlight', animation: 'fade-up' },
+        { selector: '.policy-accordion', animation: 'fade-in', stagger: 80 },
+        { selector: '.contact-form-wrapper', animation: 'slide-right' },
+        { selector: '.visit-us-section', animation: 'slide-left' },
+        { selector: '.map-info-card', animation: 'slide-right' },
+        { selector: '.map-container-inline', animation: 'slide-left' },
+        { selector: '.footer-content', animation: 'fade-in', stagger: 70 },
+        { selector: '.footer-bottom', animation: 'fade-up' }
     ];
 
-    const seen = new Set();
-    let count = 0;
+    const items = [
+        { selector: '.feature-card, .category-card, .market-card, .industry-tag, .step, .info-card, .accordion-item', animation: 'fade-up' },
+        { selector: '.contact-form, .location-info, .quick-info, .map-wrapper, .faq-notice, .faq-help-section, .terms-intro, .terms-section, .terms-subsection, .privacy-guarantee, .contact-box, .terms-footer > *', animation: 'fade-up' },
+        { selector: '.appointment-grid > .calendar-section', animation: 'slide-right' },
+        { selector: '.appointment-grid > .form-section', animation: 'slide-left' },
+        { selector: '.review-cta-card, .selected-appointment-info, .modal-content', animation: 'scale-in' },
+        { selector: '.pallets-hero-grid', animation: 'fade-up' },
+        { selector: '.pallets-hero-content > *', animation: 'fade-up' },
+        { selector: '.supplier-visual-card', animation: 'scale-in' },
+        { selector: '.supplier-legend', animation: 'fade-in', stagger: 70 },
+        { selector: '.pallets-categories-grid', animation: 'fade-in', stagger: 90 },
+        { selector: '.pallets-grade-grid', animation: 'fade-in', stagger: 90 },
+        { selector: '.faq-accordion', animation: 'fade-in', stagger: 80 },
+        { selector: '.help-buttons', animation: 'fade-in', stagger: 90 }
+    ];
 
-    groupedSelectors.forEach(group => {
-        const elements = document.querySelectorAll(group.selector);
-        elements.forEach((el, index) => {
-            if (seen.has(el)) return;
-            seen.add(el);
-
-            if (!el.classList.contains('animate-on-scroll')) {
-                el.classList.add('animate-on-scroll');
-                if (group.animation) el.classList.add(group.animation);
+    const applyGroup = (selector, animation, stagger) => {
+        root.querySelectorAll(selector).forEach((element, index) => {
+            if (!element.dataset.animate) {
+                element.dataset.animate = animation;
             }
 
-            if (!el.classList.contains('fade-in') && !el.classList.contains('fade-in-up') && !el.classList.contains('fade-in-down') && !el.classList.contains('fade-in-left') && !el.classList.contains('fade-in-right') && !el.classList.contains('scale-in') && !el.classList.contains('slide-in-up')) {
-                el.classList.add(group.animation || 'fade-in-up');
+            if (!element.dataset.delay && !element.dataset.staggerChildren) {
+                element.dataset.delay = `${Math.min(index * 70, 280)}ms`;
             }
 
-            if (!el.style.animationDelay) {
-                el.style.animationDelay = `${Math.min((index % 6) * 0.08, 0.4)}s`;
+            if (stagger && element.children.length > 1 && !element.dataset.staggerChildren) {
+                element.dataset.staggerChildren = `${stagger}ms`;
+                element.dataset.delay = element.dataset.delay || '0ms';
+            }
+        });
+    };
+
+    groups.forEach(({ selector, animation, stagger }) => applyGroup(selector, animation, stagger));
+
+    items.forEach(({ selector, animation, stagger }) => {
+        root.querySelectorAll(selector).forEach((element, index) => {
+            if (!element.dataset.animate) {
+                element.dataset.animate = animation;
+                if (!element.dataset.delay) {
+                    element.dataset.delay = `${Math.min((index % 6) * 80, 320)}ms`;
+                }
             }
 
-            const rect = el.getBoundingClientRect();
-            const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-            const hasScrolled = window.scrollY > 0;
-            const aboveViewport = rect.bottom <= 0;
-            const alreadyVisibleOnLoad = rect.top < viewportHeight && rect.bottom > 0;
-
-            if (aboveViewport || (hasScrolled && alreadyVisibleOnLoad)) {
-                el.classList.remove('reveal-pending');
-                el.classList.add('animated');
-            } else {
-                el.classList.remove('animated');
-                el.classList.add('reveal-pending');
-                revealObserver.observe(el);
+            if (stagger && !element.dataset.staggerChildren && element.children.length > 1) {
+                element.dataset.staggerChildren = `${stagger}ms`;
             }
-
-            count += 1;
         });
     });
 
-    console.log(`✨ Initialized scroll animations for ${count} elements`);
+    if (typeof window.initializeScrollReveal === 'function') {
+        window.initializeScrollReveal(root);
+    }
 }
 
-// Observe elements for animation
 document.addEventListener('DOMContentLoaded', () => {
-    applyScrollRevealTargets();
+    configureScrollReveal();
 });
 
 // Phone number formatter (optional enhancement)

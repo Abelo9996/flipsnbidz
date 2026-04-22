@@ -71,14 +71,14 @@
     <!-- Appointment Scheduler Section -->
     <section class="appointment-section">
         <div class="container">
-            <div class="appointment-header">
+            <div class="appointment-header" data-animate="fade-up">
                 <h1>Schedule Your Appointment</h1>
                 <p>Book a 15-minute slot to visit our warehouse, inspect items, or schedule a pickup.</p>
             </div>
 
             <div class="appointment-grid">
                 <!-- Calendar Section -->
-                <div class="calendar-section">
+                <div class="calendar-section" data-animate="slide-right">
                     <div class="calendar-header">
                         <button class="calendar-nav-btn" id="prevMonth">
                             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
@@ -102,12 +102,12 @@
                 </div>
 
                 <!-- Form Section -->
-                <div class="form-section">
+                <div class="form-section" data-animate="slide-left">
                     <div class="form-wrapper">
                         <h3>Your Information</h3>
                         <p class="form-subtitle">Please fill out your details to complete the booking</p>
 
-                        <div class="review-cta-card compact-review-cta inline-review-cta">
+                        <div class="review-cta-card compact-review-cta inline-review-cta" data-animate="scale-in" data-delay="120ms">
                             <div class="review-cta-copy">
                                 <h4>Enjoyed your experience with Flips &amp; Bidz?</h4>
                                 <p>Leaving a Google review is optional, but it helps other buyers find us.</p>
@@ -151,7 +151,7 @@
                                 </select>
                             </div>
 
-                            <div class="selected-appointment-info" id="selectedAppointmentInfo" style="display: none;">
+                            <div class="selected-appointment-info" id="selectedAppointmentInfo" style="display: none;" data-animate="scale-in">
                                 <h4>📅 Your Selected Appointment</h4>
                                 <p id="appointmentSummary"></p>
                             </div>
@@ -172,7 +172,7 @@
 
     <!-- Success Modal -->
     <div class="modal" id="successModal">
-        <div class="modal-content">
+        <div class="modal-content" data-animate="scale-in">
             <div class="modal-header">
                 <div class="success-icon">✓</div>
                 <h2>Appointment Confirmed!</h2>
@@ -246,7 +246,8 @@
 
     <!-- Holiday Theme (easily removable) -->
     <script src="holiday-theme.js"></script>
-    <script src="script.js?v=20260420b"></script>
+    <script src="scroll-reveal.js?v=20260422a"></script>
+    <script src="script.js?v=20260422a"></script>
     <script src="appointment-script.js?v=20260420b"></script>
 </body>
 </html>
