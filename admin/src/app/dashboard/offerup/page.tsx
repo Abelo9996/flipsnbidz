@@ -29,20 +29,20 @@ interface Listing {
 }
 
 interface Profile {
-  name: string;
-  url: string;
-  location: string;
-  joined: string;
-  rating: number;
-  reviews: number;
-  sold: number;
-  followers: number;
-  compliments: {
-    itemAsDescribed: number;
-    friendly: number;
-    onTime: number;
-    reliable: number;
-    communicative: number;
+  name?: string;
+  url?: string;
+  location?: string;
+  joined?: string;
+  rating?: number | null;
+  reviews?: number | null;
+  sold?: number | null;
+  followers?: number | null;
+  compliments?: {
+    itemAsDescribed?: number | null;
+    friendly?: number | null;
+    onTime?: number | null;
+    reliable?: number | null;
+    communicative?: number | null;
   };
 }
 
@@ -119,6 +119,32 @@ export default function OfferUpPage() {
   const filtered = search
     ? listings.filter((l) => l.title.toLowerCase().includes(search.toLowerCase()))
     : listings;
+
+  const profileDisplay = {
+    name: profile?.name || "Flips N Bidz",
+    url: profile?.url || "https://offerup.com/p/158714750",
+    location: profile?.location || "Location unavailable",
+    joined: profile?.joined || "Join date unavailable",
+    rating: profile?.rating ?? null,
+    reviews: profile?.reviews ?? null,
+    sold: profile?.sold ?? null,
+    followers: profile?.followers ?? null,
+    compliments: {
+      itemAsDescribed: profile?.compliments?.itemAsDescribed ?? null,
+      friendly: profile?.compliments?.friendly ?? null,
+      onTime: profile?.compliments?.onTime ?? null,
+      reliable: profile?.compliments?.reliable ?? null,
+      communicative: profile?.compliments?.communicative ?? null,
+    },
+  };
+
+  const profileBadges = [
+    { label: "As Described", count: profileDisplay.compliments.itemAsDescribed, icon: ThumbsUp },
+    { label: "Friendly", count: profileDisplay.compliments.friendly, icon: MessageCircle },
+    { label: "On Time", count: profileDisplay.compliments.onTime, icon: Clock },
+    { label: "Reliable", count: profileDisplay.compliments.reliable, icon: Star },
+    { label: "Communicative", count: profileDisplay.compliments.communicative, icon: MessageCircle },
+  ].filter((item) => item.count !== null && item.count !== undefined);
   const active = listings.filter((l) => l.status === "active");
   const sold = listings.filter((l) => l.status === "sold");
   const totalValue = active.reduce((s, l) => s + l.currentBid, 0);
@@ -157,7 +183,7 @@ export default function OfferUpPage() {
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
-          <a href="https://offerup.com/p/158714750" target="_blank" rel="noopener noreferrer">
+          <a href={profileDisplay.url} target="_blank" rel="noopener noreferrer">
             <Button variant="outline" size="sm" className="border-gray-700 text-gray-300">
               <ExternalLink className="h-4 w-4 mr-1" /> Profile
             </Button>
@@ -188,46 +214,44 @@ export default function OfferUpPage() {
                   <ShoppingBag className="h-6 w-6 text-blue-400" />
                 </div>
                 <div>
-                  <p className="font-semibold text-lg">{profile.name}</p>
+                  <p className="font-semibold text-lg">{profileDisplay.name}</p>
                   <p className="text-gray-400 text-sm">
-                    {profile.location} · Joined {profile.joined}
+                    {profileDisplay.location} · Joined {profileDisplay.joined}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-1.5">
                 <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" />
-                <span className="font-semibold">{profile.rating}</span>
-                <span className="text-gray-400 text-sm">({profile.reviews})</span>
+                <span className="font-semibold">{profileDisplay.rating ?? "—"}</span>
+                <span className="text-gray-400 text-sm">
+                  {profileDisplay.reviews !== null ? `(${profileDisplay.reviews})` : "(live unavailable)"}
+                </span>
               </div>
               <div className="flex items-center gap-1.5 text-green-400">
                 <TrendingUp className="h-4 w-4" />
-                <span className="font-semibold">{profile.sold}</span>
+                <span className="font-semibold">{profileDisplay.sold ?? "—"}</span>
                 <span className="text-gray-400 text-sm">sold</span>
               </div>
               <div className="flex items-center gap-1.5 text-purple-400">
                 <Users className="h-4 w-4" />
-                <span className="font-semibold">{profile.followers}</span>
+                <span className="font-semibold">{profileDisplay.followers ?? "—"}</span>
                 <span className="text-gray-400 text-sm">followers</span>
               </div>
             </div>
-            <div className="flex flex-wrap gap-3 mt-4">
-              {[
-                { label: "As Described", count: profile.compliments.itemAsDescribed, icon: ThumbsUp },
-                { label: "Friendly", count: profile.compliments.friendly, icon: MessageCircle },
-                { label: "On Time", count: profile.compliments.onTime, icon: Clock },
-                { label: "Reliable", count: profile.compliments.reliable, icon: Star },
-                { label: "Communicative", count: profile.compliments.communicative, icon: MessageCircle },
-              ].map((c) => (
-                <div
-                  key={c.label}
-                  className="flex items-center gap-1.5 text-xs text-gray-400 bg-gray-800/60 rounded-full px-3 py-1.5"
-                >
-                  <c.icon className="h-3 w-3" />
-                  <span>{c.count}</span>
-                  <span>{c.label}</span>
-                </div>
-              ))}
-            </div>
+            {profileBadges.length > 0 && (
+              <div className="mt-4 flex flex-wrap gap-3">
+                {profileBadges.map((c) => (
+                  <div
+                    key={c.label}
+                    className="flex items-center gap-1.5 rounded-full bg-gray-800/60 px-3 py-1.5 text-xs text-gray-400"
+                  >
+                    <c.icon className="h-3 w-3" />
+                    <span>{c.count}</span>
+                    <span>{c.label}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
       )}
@@ -256,7 +280,7 @@ export default function OfferUpPage() {
           <CardContent className="py-4 flex items-center justify-between">
             <div>
               <p className="text-xs text-gray-400">Total Sold</p>
-              <p className="text-2xl font-bold">{profile?.sold || sold.length}</p>
+              <p className="text-2xl font-bold">{profileDisplay.sold ?? sold.length}</p>
             </div>
             <TrendingUp className="h-8 w-8 text-purple-400/30" />
           </CardContent>
