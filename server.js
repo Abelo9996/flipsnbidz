@@ -2,18 +2,67 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const { google } = require('googleapis');
+const httpProxy = require('http-proxy');
+const { spawn } = require('child_process');
+const path = require('path');
 require('dotenv').config();
 
-const app = express();
 const PORT = process.env.PORT || 3000;
+const ADMIN_PORT = 3099; // Internal port for Next.js admin
+
+// ─── Start Next.js admin as child process ───
+const adminDir = path.join(__dirname, 'admin');
+const adminProcess = spawn('npx', ['next', 'dev', '-p', String(ADMIN_PORT)], {
+  cwd: adminDir,
+  env: { ...process.env, PORT: String(ADMIN_PORT) },
+  stdio: ['pipe', 'pipe', 'pipe'],
+});
+
+adminProcess.stdout.on('data', (data) => {
+  const msg = data.toString().trim();
+  if (msg) console.log(`[admin] ${msg}`);
+});
+adminProcess.stderr.on('data', (data) => {
+  const msg = data.toString().trim();
+  if (msg) console.error(`[admin] ${msg}`);
+});
+adminProcess.on('exit', (code) => {
+  console.error(`[admin] Next.js process exited with code ${code}`);
+});
+
+// Proxy for /admin routes
+const proxy = httpProxy.createProxyServer({
+  target: `http://127.0.0.1:${ADMIN_PORT}`,
+  changeOrigin: true,
+  ws: true,
+  timeout: 360000, // 6 min for scrape (Playwright + AI categorization)
+  proxyTimeout: 360000,
+});
+
+proxy.on('error', (err, req, res) => {
+  if (res.writeHead) {
+    res.writeHead(502, { 'Content-Type': 'text/plain' });
+    res.end('Admin dashboard is starting up... please refresh in a moment.');
+  }
+});
+
+const app = express();
+
+// Import chatbot router
+const chatbotRouter = require('./api/chatbot');
+
+// ─── Admin: proxy /admin/* and /_next/* to Next.js child process ───
+// IMPORTANT: proxy routes BEFORE body parsers so the request body stream
+// is forwarded intact to Next.js (express.json() consumes the stream).
+app.all('/admin', (req, res) => proxy.web(req, res));
+app.all('/admin/*', (req, res) => proxy.web(req, res));
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use(express.static('.')); // Serve static files from current directory
 
-// Import chatbot router
-const chatbotRouter = require('./api/chatbot');
+// Serve static files for customer site
+app.use(express.static('.', { extensions: ['html'], index: 'index.html' }));
 
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
@@ -104,14 +153,14 @@ function createEmail(to, from, subject, htmlBody) {
         htmlBody
     ];
     const message = messageParts.join('\n');
-    
+
     // Encode the message in base64url format
     const encodedMessage = Buffer.from(message)
         .toString('base64')
         .replace(/\+/g, '-')
         .replace(/\//g, '_')
         .replace(/=+$/, '');
-    
+
     return encodedMessage;
 }
 
@@ -119,7 +168,7 @@ function createEmail(to, from, subject, htmlBody) {
 async function sendAppointmentEmails(appointmentData) {
     const { firstName, lastName, email, phone, date, time, referralSource } = appointmentData;
     const fromEmail = process.env.GMAIL_USER || 'flipsnbidz@gmail.com';
-    
+
     // Customer email HTML
     const customerHtml = `<!DOCTYPE html>
 <html>
@@ -144,7 +193,7 @@ async function sendAppointmentEmails(appointmentData) {
         <div class="content">
             <p>Hello ${firstName},</p>
             <p>Thank you for scheduling an appointment with Flips & Bidz Liquidation Auctions!</p>
-            
+
             <div class="info-box">
                 <h3 style="margin-top: 0; color: #2563eb;">Appointment Details</h3>
                 <div class="info-row">
@@ -160,15 +209,15 @@ async function sendAppointmentEmails(appointmentData) {
                     <span class="label">Phone:</span> ${phone}
                 </div>
             </div>
-            
+
             <p><strong>Location:</strong><br>
             15300 Valley View Avenue<br>
             La Mirada, CA 90638</p>
-            
+
             <p>We look forward to seeing you! If you need to reschedule or cancel, please contact us at least 24 hours in advance.</p>
-            
+
             <a href="https://flipsandbidz.com" class="button">Visit Our Website</a>
-            
+
             <div class="footer">
                 <p>Questions? Contact us at (626) 944-3190 or flipsnbidz@gmail.com</p>
                 <p>&copy; 2025 Flips & Bidz. All rights reserved.</p>
@@ -177,7 +226,7 @@ async function sendAppointmentEmails(appointmentData) {
     </div>
 </body>
 </html>`;
-    
+
     // Business notification email HTML
     const businessHtml = `<!DOCTYPE html>
 <html>
@@ -200,19 +249,19 @@ async function sendAppointmentEmails(appointmentData) {
             <div class="info-grid">
                 <div class="label">Customer:</div>
                 <div>${firstName} ${lastName}</div>
-                
+
                 <div class="label">Email:</div>
                 <div><a href="mailto:${email}">${email}</a></div>
-                
+
                 <div class="label">Phone:</div>
                 <div><a href="tel:${phone}">${phone}</a></div>
-                
+
                 <div class="label">Date:</div>
                 <div>${date}</div>
-                
+
                 <div class="label">Time:</div>
                 <div>${time}</div>
-                
+
                 <div class="label">Referral Source:</div>
                 <div>${referralSource || 'Not specified'}</div>
             </div>
@@ -220,7 +269,7 @@ async function sendAppointmentEmails(appointmentData) {
     </div>
 </body>
 </html>`;
-    
+
     try {
         // Send customer confirmation email
         const customerEmail = createEmail(
@@ -229,16 +278,16 @@ async function sendAppointmentEmails(appointmentData) {
             'Appointment Confirmation - Flips & Bidz',
             customerHtml
         );
-        
+
         await gmail.users.messages.send({
             userId: 'me',
             requestBody: {
                 raw: customerEmail
             }
         });
-        
+
         console.log(`✅ Customer email sent to ${email}`);
-        
+
         // Send business notification email
         const businessEmail = createEmail(
             fromEmail,
@@ -246,16 +295,16 @@ async function sendAppointmentEmails(appointmentData) {
             `New Appointment: ${date} at ${time}`,
             businessHtml
         );
-        
+
         await gmail.users.messages.send({
             userId: 'me',
             requestBody: {
                 raw: businessEmail
             }
         });
-        
+
         console.log(`✅ Business notification sent to ${fromEmail}`);
-        
+
         return { success: true };
     } catch (error) {
         console.error('Gmail API error:', error);
@@ -272,35 +321,35 @@ app.use('/api', chatbotRouter);
 app.post('/api/appointments', async (req, res) => {
     try {
         const appointmentData = req.body;
-        
+
         // Check if slot is already taken
         const existingAppointment = await Appointment.findOne({
             date: appointmentData.date,
             time: appointmentData.time,
             status: { $ne: 'cancelled' }
         });
-        
+
         if (existingAppointment) {
             return res.status(409).json({
                 success: false,
                 message: 'This time slot is already booked. Please select another time.'
             });
         }
-        
+
         // Create new appointment
         const appointment = new Appointment(appointmentData);
         await appointment.save();
-        
+
         // Send confirmation emails
         const emailResult = await sendAppointmentEmails(appointmentData);
-        
+
         res.status(201).json({
             success: true,
             message: 'Appointment booked successfully!',
             appointment: appointment,
             emailSent: emailResult.success
         });
-        
+
     } catch (error) {
         console.error('Error creating appointment:', error);
         res.status(500).json({
@@ -316,7 +365,7 @@ app.get('/api/appointments', async (req, res) => {
     try {
         const appointments = await Appointment.find()
             .sort({ date: 1, time: 1 });
-        
+
         res.json({
             success: true,
             count: appointments.length,
@@ -336,15 +385,15 @@ app.get('/api/appointments', async (req, res) => {
 app.get('/api/appointments/availability/:date', async (req, res) => {
     try {
         const { date } = req.params;
-        
+
         // Get all booked appointments for this date
         const bookedAppointments = await Appointment.find({
             date: date,
             status: { $ne: 'cancelled' }
         }).select('time');
-        
+
         const bookedTimes = bookedAppointments.map(apt => apt.time);
-        
+
         res.json({
             success: true,
             date: date,
@@ -364,14 +413,14 @@ app.get('/api/appointments/availability/:date', async (req, res) => {
 app.get('/api/appointments/:id', async (req, res) => {
     try {
         const appointment = await Appointment.findById(req.params.id);
-        
+
         if (!appointment) {
             return res.status(404).json({
                 success: false,
                 message: 'Appointment not found'
             });
         }
-        
+
         res.json({
             success: true,
             appointment: appointment
@@ -390,20 +439,20 @@ app.get('/api/appointments/:id', async (req, res) => {
 app.patch('/api/appointments/:id', async (req, res) => {
     try {
         const { status, notes } = req.body;
-        
+
         const appointment = await Appointment.findByIdAndUpdate(
             req.params.id,
             { status, notes },
             { new: true, runValidators: true }
         );
-        
+
         if (!appointment) {
             return res.status(404).json({
                 success: false,
                 message: 'Appointment not found'
             });
         }
-        
+
         res.json({
             success: true,
             message: 'Appointment updated successfully',
@@ -423,14 +472,14 @@ app.patch('/api/appointments/:id', async (req, res) => {
 app.delete('/api/appointments/:id', async (req, res) => {
     try {
         const appointment = await Appointment.findByIdAndDelete(req.params.id);
-        
+
         if (!appointment) {
             return res.status(404).json({
                 success: false,
                 message: 'Appointment not found'
             });
         }
-        
+
         res.json({
             success: true,
             message: 'Appointment deleted successfully'
@@ -456,8 +505,20 @@ app.get('/api/health', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, () => {
-    console.log(`🚀 Server running on http://localhost:${PORT}`);
-    console.log(`📊 MongoDB: ${mongoose.connection.readyState === 1 ? 'Connected' : 'Connecting...'}`);
-    console.log(`📧 Email: Gmail API configured`);
+const server = app.listen(PORT, () => {
+  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🔒 Admin dashboard: http://localhost:${PORT}/admin`);
+  console.log(`📊 MongoDB: ${mongoose.connection.readyState === 1 ? 'Connected' : 'Connecting...'}`);
+  console.log(`📧 Email: Gmail API configured`);
 });
+
+// Proxy WebSocket connections for Next.js HMR
+server.on('upgrade', (req, socket, head) => {
+  if (req.url && (req.url.startsWith('/admin') || req.url.startsWith('/_next'))) {
+    proxy.ws(req, socket, head);
+  }
+});
+
+// Cleanup on exit
+process.on('SIGTERM', () => { adminProcess.kill(); process.exit(0); });
+process.on('SIGINT', () => { adminProcess.kill(); process.exit(0); });

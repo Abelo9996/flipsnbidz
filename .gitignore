@@ -1,8 +1,24 @@
 # Environment variables
 .env
+.env.*
+!.env.example
+admin/.env.local
+admin/.env.*
+!admin/.env.example
 
 # Dependencies
 node_modules/
+admin/node_modules/
+
+# Build artifacts
+.next/
+admin/.next/
+out/
+dist/
+build/
+coverage/
+admin/tsconfig.tsbuildinfo
+*.tsbuildinfo
 
 # Logs
 logs/
@@ -10,6 +26,7 @@ logs/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
 # OS files
 .DS_Store
@@ -22,3 +39,9 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp
+
+# Local tooling scratch
+.claude/
+
+# Local dev scripts with hardcoded paths
+start-admin.sh

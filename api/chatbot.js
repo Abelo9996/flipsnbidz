@@ -3,8 +3,6 @@ const cors = require('cors');
 const OpenAI = require('openai');
 const axios = require('axios');
 const cheerio = require('cheerio');
-const fs = require('fs');
-const path = require('path');
 require('dotenv').config();
 
 const router = express.Router();
@@ -13,79 +11,6 @@ const router = express.Router();
 const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
-
-// Function to load all auction context files
-function loadAuctionContext() {
-    const contextDir = path.join(__dirname, '..', 'auction_context');
-    let auctionContext = '';
-
-    try {
-        if (!fs.existsSync(contextDir)) {
-            return '';
-        }
-
-        const files = fs.readdirSync(contextDir);
-        const csvFiles = files.filter(file => file.endsWith('.csv'));
-
-        if (csvFiles.length === 0) {
-            return '';
-        }
-
-        csvFiles.forEach(file => {
-            const filePath = path.join(contextDir, file);
-            const content = fs.readFileSync(filePath, 'utf-8');
-            const lines = content.split('\n').filter(line => line.trim());
-            
-            if (lines.length === 0) return;
-            
-            // Extract auction name from filename
-            const auctionName = file.replace('.csv', '');
-            
-            // Parse CSV to extract only the Title column
-            const headers = lines[0].split(',').map(h => h.trim());
-            const titleIndex = headers.findIndex(h => h.toLowerCase() === 'title');
-            const lotIndex = headers.findIndex(h => h.toLowerCase() === 'lot');
-            
-            if (titleIndex === -1) {
-                console.warn(`⚠️  No "Title" column found in ${file}`);
-                return;
-            }
-            
-            const items = [];
-            for (let i = 1; i < lines.length; i++) {
-                const columns = lines[i].split(',');
-                const title = columns[titleIndex]?.trim();
-                const lot = lotIndex !== -1 ? columns[lotIndex]?.trim() : i;
-                
-                if (title) {
-                    items.push(`Lot ${lot}: ${title}`);
-                }
-            }
-            
-            auctionContext += `\n**AUCTION: ${auctionName}**\n`;
-            auctionContext += `Total Items: ${items.length}\n\n`;
-            auctionContext += items.join('\n') + '\n';
-            auctionContext += `\n${'='.repeat(80)}\n`;
-        });
-
-        return auctionContext;
-
-    } catch (error) {
-        console.error('Error loading auction context:', error);
-        return '';
-    }
-}
-
-// Load and display auction context on startup
-const initialAuctionContext = loadAuctionContext();
-if (initialAuctionContext) {
-    const contextDir = path.join(__dirname, '..', 'auction_context');
-    const files = fs.readdirSync(contextDir).filter(file => file.endsWith('.csv'));
-    console.log(`📦 Chatbot: Loaded ${files.length} auction inventory file(s) from auction_context/`);
-    files.forEach(file => console.log(`   - ${file}`));
-} else {
-    console.log('📦 Chatbot: No auction inventory files found in auction_context/');
-}
 
 // System prompt with comprehensive Flips & Bidz information
 const SYSTEM_PROMPT = `You are a helpful customer support assistant for Flips & Bidz, a premier liquidation and auction company.
@@ -188,9 +113,6 @@ For questions, issues, or assistance:
 
 **YOUR CAPABILITIES:**
 You have access to a tool that can scrape the current auction inventory from https://flipsandbidz.hibid.com/ to provide real-time information about available items.
-
-**AUCTION INVENTORY DATA:**
-You have access to historical and current auction inventory data from CSV files showing lot numbers and item titles from past and current auctions. Use this data to answer questions about what items are/were available in specific auctions.
 
 **YOUR ROLE:**
 - Be friendly, professional, and helpful
@@ -318,19 +240,9 @@ router.post('/chat', async (req, res) => {
             return res.status(400).json({ error: 'Message is required' });
         }
 
-        // Load auction context dynamically for each request
-        const auctionContext = loadAuctionContext();
-        
-        let enhancedSystemPrompt = SYSTEM_PROMPT;
-        if (auctionContext) {
-            enhancedSystemPrompt += `\n\n**AVAILABLE AUCTION INVENTORY DATA:**\n${auctionContext}`;
-            enhancedSystemPrompt += `\n\n**IMPORTANT:** You have direct access to the auction inventory data above. When users ask about items, inventory, lots, or auction details, use the data provided above to answer their questions. DO NOT say the data is being updated or that you don't have access - you have complete access to all the auction data shown above.`;
-            console.log(`📊 Loaded auction context: ${(auctionContext.length / 1024).toFixed(2)} KB`);
-        }
-
         // Build messages array with system prompt and history
         const messages = [
-            { role: 'system', content: enhancedSystemPrompt },
+            { role: 'system', content: SYSTEM_PROMPT },
             ...history.slice(-10), // Keep last 10 messages for context
             { role: 'user', content: message }
         ];

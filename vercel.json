@@ -6,10 +6,6 @@
       "use": "@vercel/node"
     },
     {
-      "src": "api/chatbot.js",
-      "use": "@vercel/node"
-    },
-    {
       "src": "*.html",
       "use": "@vercel/static"
     },
@@ -28,17 +24,9 @@
     {
       "src": "icons/**",
       "use": "@vercel/static"
-    },
-    {
-      "src": "auction_context/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/api/chat",
-      "dest": "/api/index.js"
-    },
     {
       "src": "/api/(.*)",
       "dest": "/api/index.js"
