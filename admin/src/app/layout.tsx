@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 import "./globals.css";
 import { Providers } from "@/components/providers";
-import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Flips & Bidz Admin",
@@ -12,10 +14,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="dark">
       <body className="min-h-screen bg-gray-950 text-white antialiased">
-        <Providers>
-          {children}
-          <Toaster theme="dark" />
-        </Providers>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

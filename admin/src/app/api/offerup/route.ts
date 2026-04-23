@@ -99,11 +99,11 @@ type ScrapedProfile = Partial<{
   sold: number | null;
   followers: number | null;
   compliments: {
-    itemAsDescribed: number | null;
-    friendly: number | null;
-    onTime: number | null;
-    reliable: number | null;
-    communicative: number | null;
+    itemAsDescribed?: number | null;
+    friendly?: number | null;
+    onTime?: number | null;
+    reliable?: number | null;
+    communicative?: number | null;
   };
   raw: unknown;
 }>;
@@ -245,19 +245,19 @@ function extractProfileFromText(text: string): ScrapedProfile {
     communicative: compact.match(/(\d+)\s+Communicative/i),
   };
 
-  profile.compliments = {
-    itemAsDescribed: compliments.itemAsDescribed ? Number(compliments.itemAsDescribed[1]) : undefined,
-    friendly: compliments.friendly ? Number(compliments.friendly[1]) : undefined,
-    onTime: compliments.onTime ? Number(compliments.onTime[1]) : undefined,
-    reliable: compliments.reliable ? Number(compliments.reliable[1]) : undefined,
-    communicative: compliments.communicative ? Number(compliments.communicative[1]) : undefined,
-  };
+  const parsedCompliments: NonNullable<ScrapedProfile["compliments"]> = {};
+  if (compliments.itemAsDescribed) parsedCompliments.itemAsDescribed = Number(compliments.itemAsDescribed[1]);
+  if (compliments.friendly) parsedCompliments.friendly = Number(compliments.friendly[1]);
+  if (compliments.onTime) parsedCompliments.onTime = Number(compliments.onTime[1]);
+  if (compliments.reliable) parsedCompliments.reliable = Number(compliments.reliable[1]);
+  if (compliments.communicative) parsedCompliments.communicative = Number(compliments.communicative[1]);
+  if (Object.keys(parsedCompliments).length > 0) profile.compliments = parsedCompliments;
 
   return profile;
 }
 
 async function scrapeProfileWithBrowser(): Promise<ScrapedProfile> {
-  let browser: { close: () => Promise<void> } | null = null;
+  let browser: import("playwright").Browser | null = null;
   try {
     const { chromium } = await import("playwright");
     browser = await chromium.launch({ headless: true });
@@ -315,14 +315,17 @@ function extractProfileFromApollo(apolloState: Record<string, unknown>): Scraped
   const joined = formatJoined(user.dateJoined ?? user.joinedDate ?? user.memberSince ?? user.createdAt);
   if (joined) profile.joined = joined;
 
-  const ratingObj = user.ratingSummary ?? user.rating ?? user.ratings ?? user.sellerRating ?? null;
+  const ratingObj = (user.ratingSummary ?? user.rating ?? user.ratings ?? user.sellerRating ?? null) as ApolloEntity | null;
+  const transactionCounts = (user.transactionCounts ?? null) as ApolloEntity | null;
+  const stats = (user.stats ?? null) as ApolloEntity | null;
+
   const rating = num(ratingObj?.average) ?? num(ratingObj?.value) ?? num(user.averageRating) ?? num(user.rating);
   const reviews = num(ratingObj?.count) ?? num(user.reviewCount) ?? num(user.reviewsCount) ?? num(user.numReviews);
   const sold =
     num(user.itemsSold) ??
     num(user.soldCount) ??
-    num(user.transactionCounts?.sold) ??
-    num(user.stats?.itemsSold);
+    num(transactionCounts?.sold) ??
+    num(stats?.itemsSold);
   const followers =
     num(user.followers) ?? num(user.followerCount) ?? num(user.followersCount) ?? num(user.numFollowers);
 
@@ -346,7 +349,7 @@ function extractProfileFromApollo(apolloState: Record<string, unknown>): Scraped
     }
     profile.compliments = compliments;
   } else {
-    const c = user.compliments || user.sellerCompliments || {};
+    const c = (user.compliments || user.sellerCompliments || {}) as ApolloEntity;
     const compliments: NonNullable<ScrapedProfile["compliments"]> = {};
     const itemAsDescribed = num(c.itemAsDescribed);
     const friendly = num(c.friendly);
@@ -387,7 +390,7 @@ async function scrapeOfferUp(): Promise<{ listings: ScrapedListing[]; profile: S
       scrapedProfile = extractProfileFromApollo(apolloState);
       const rootQuery = (apolloState as Record<string, unknown>)["ROOT_QUERY"] as Record<string, unknown> | undefined;
       const listingsKey = rootQuery ? Object.keys(rootQuery).find((k) => k.startsWith("userListings")) : null;
-      if (listingsKey) {
+      if (rootQuery && listingsKey) {
         const entry = rootQuery[listingsKey] as { listings?: ScrapedListing[]; pageCursor?: string | null } | undefined;
         firstPageListings = (entry?.listings || []) as ScrapedListing[];
         pageCursor = entry?.pageCursor || null;
