@@ -31,7 +31,7 @@ export async function GET(req: NextRequest) {
       seoArticlesDraft,
       seoArticlesPublished,
     ] = await Promise.all([
-      AuctionLot.countDocuments({ status: "active" }),
+      AuctionLot.countDocuments({ status: "active", source: "hibid" }),
       AuctionLot.countDocuments(),
       Subscriber.countDocuments({ status: "active" }),
       Subscriber.countDocuments({ subscribedAt: { $gte: since } }),

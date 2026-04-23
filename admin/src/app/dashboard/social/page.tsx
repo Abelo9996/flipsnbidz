@@ -323,7 +323,7 @@ export default function SocialPage() {
     toast.success("Copied!");
   }
 
-  const drafted = posts.filter((p) => p.status === "draft");
+  const drafted = posts.filter((p) => p.status === "draft" || p.status === "scheduled");
   const published = posts.filter((p) => p.status === "published");
 
   return (
@@ -905,6 +905,11 @@ export default function SocialPage() {
                           {PLATFORMS.find((p) => p.value === post.platform)?.emoji}{" "}
                           {post.platform}
                         </Badge>
+                        {post.status === "scheduled" && (
+                          <Badge className="bg-yellow-600/20 text-yellow-400 text-xs">
+                            scheduled{post.scheduledFor ? ` · ${new Date(post.scheduledFor).toLocaleDateString()}` : ""}
+                          </Badge>
+                        )}
                         <span className="text-xs text-gray-500">
                           {new Date(post.createdAt).toLocaleDateString()}
                         </span>

@@ -36,7 +36,7 @@ async function categorizeOfferUpListings(items: { id: string; title: string }[])
     try {
       const batch = items.slice(i, i + BATCH);
       const res = await openai.chat.completions.create({
-        model: "gpt-5.4",
+        model: "gpt-4o",
         messages: [
           {
             role: "system",

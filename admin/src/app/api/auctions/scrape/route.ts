@@ -161,7 +161,7 @@ async function categorizeAll(items: { lotNum: string; title: string }[]): Promis
     try {
       const batch = items.slice(i, i + BATCH);
       const res = await openai.chat.completions.create({
-        model: "gpt-5.4",
+        model: "gpt-4o",
         messages: [
           { role: "system", content: `Categorize auction items: electronics, furniture, tools, appliances, kitchen, outdoor, clothing, toys, sports, home-decor, automotive, office, health-beauty, uncategorized. Return JSON: {"lotNumber": "category"}` },
           { role: "user", content: batch.map((it) => `${it.lotNum}: ${it.title}`).join("\n") },
