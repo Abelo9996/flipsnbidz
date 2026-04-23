@@ -12,7 +12,10 @@ const ADMIN_PORT = 3099; // Internal port for Next.js admin
 
 // ─── Start Next.js admin as child process ───
 const adminDir = path.join(__dirname, 'admin');
-const adminProcess = spawn('npx', ['next', 'dev', '-p', String(ADMIN_PORT)], {
+const isDev = process.env.NODE_ENV !== 'production';
+const adminProcess = spawn('npx', [
+  'next', isDev ? 'dev' : 'start', '-p', String(ADMIN_PORT)
+], {
   cwd: adminDir,
   env: { ...process.env, PORT: String(ADMIN_PORT) },
   stdio: ['pipe', 'pipe', 'pipe'],
