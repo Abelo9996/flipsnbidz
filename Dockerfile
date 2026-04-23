@@ -36,7 +36,7 @@ RUN npm ci --omit=dev --ignore-scripts
 
 # Install admin dependencies (ignore-scripts so postinstall doesn't run yet)
 COPY admin/package*.json ./admin/
-RUN npm ci --prefix admin --omit=dev --ignore-scripts
+RUN npm ci --prefix admin --ignore-scripts
 
 # Now install Playwright chromium (system deps already present above)
 RUN cd admin && npx playwright install chromium
