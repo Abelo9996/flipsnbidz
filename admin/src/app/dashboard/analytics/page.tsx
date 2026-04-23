@@ -1,7 +1,7 @@
 "use client";
 
 import { apiUrl } from "@/lib/api";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -200,6 +200,25 @@ export default function AnalyticsPage() {
   }, [range]);
 
   useEffect(() => { load(); }, [load]);
+
+  const totalPalletCost = report.reduce((sum, month) => sum + month.palletCost, 0);
+
+  const costBreakdownCategories = useMemo(() => {
+    const operatingCategories = expenses?.categories ?? [];
+    const combined = [...operatingCategories];
+
+    if (totalPalletCost > 0) {
+      combined.push({
+        category: "Pallet Costs",
+        total: totalPalletCost,
+        color: "#f59e0b",
+      });
+    }
+
+    return combined
+      .filter((item) => item.total > 0)
+      .sort((a, b) => b.total - a.total);
+  }, [expenses, totalPalletCost]);
 
   if (loading && !data) {
     return (
@@ -403,13 +422,13 @@ export default function AnalyticsPage() {
             </CardContent>
           </Card>
 
-          {/* D. Expense Category Breakdown */}
-          {expenses && expenses.categories.length > 0 && (
+          {/* D. Cost Breakdown */}
+          {costBreakdownCategories.length > 0 && (
             <Card className="bg-gray-900 border-gray-800">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
                   <DollarSign className="h-5 w-5 text-red-400" />
-                  Expense Category Breakdown
+                  Cost Breakdown — Pallet Costs + Expense Categories
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -418,7 +437,7 @@ export default function AnalyticsPage() {
                   <ResponsiveContainer width="100%" height={260}>
                     <PieChart>
                       <Pie
-                        data={expenses.categories}
+                        data={costBreakdownCategories}
                         dataKey="total"
                         nameKey="category"
                         cx="50%"
@@ -427,13 +446,13 @@ export default function AnalyticsPage() {
                         outerRadius={95}
                         paddingAngle={3}
                       >
-                        {expenses.categories.map((cat, i) => (
+                        {costBreakdownCategories.map((cat, i) => (
                           <Cell key={i} fill={cat.color || COLORS[i % COLORS.length]} />
                         ))}
                       </Pie>
                       <Tooltip
                         contentStyle={{ background: "#111827", border: "1px solid #374151", borderRadius: 6 }}
-                        formatter={(value) => [fmt(Number(value ?? 0)), "Total"]}
+                        formatter={(value) => [fmt(Number(value ?? 0)), "Total Cost"]}
                       />
                     </PieChart>
                   </ResponsiveContainer>
@@ -443,12 +462,12 @@ export default function AnalyticsPage() {
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b border-gray-800">
-                          <th className="py-2 text-left text-xs text-gray-400 font-medium">Category</th>
-                          <th className="py-2 text-right text-xs text-gray-400 font-medium">Total</th>
+                          <th className="py-2 text-left text-xs text-gray-400 font-medium">Cost Component</th>
+                          <th className="py-2 text-right text-xs text-gray-400 font-medium">Total Cost</th>
                         </tr>
                       </thead>
                       <tbody>
-                        {[...expenses.categories]
+                        {[...costBreakdownCategories]
                           .sort((a, b) => b.total - a.total)
                           .map((cat, i) => (
                             <tr key={i} className="border-b border-gray-800/40">

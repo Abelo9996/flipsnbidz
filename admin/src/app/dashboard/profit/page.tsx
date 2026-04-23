@@ -162,17 +162,27 @@ export default function ReportPage() {
     });
   }, [data, expenseDataForYear, expenseCategoryKeys]);
 
-  // Category totals for the table
-  const expenseTotalsForYear = useMemo(() => {
-    return expenseCategoryKeys
+  // Cost component totals for the table: pallet costs + expense categories
+  const costComponentTotalsForYear = useMemo(() => {
+    const rows = expenseCategoryKeys
       .map((category) => ({
         category,
         total: expenseDataForYear.reduce((sum, m) => sum + (m.categories?.[category] ?? 0), 0),
         color: expenseColors[category] ?? "#94a3b8",
       }))
-      .filter((c) => c.total > 0)
-      .sort((a, b) => b.total - a.total);
-  }, [expenseDataForYear, expenseCategoryKeys, expenseColors]);
+      .filter((c) => c.total > 0);
+
+    const palletCostTotal = data.reduce((sum, point) => sum + point.palletCost, 0);
+    if (palletCostTotal > 0) {
+      rows.unshift({
+        category: "Pallet Costs",
+        total: palletCostTotal,
+        color: COLS.cost,
+      });
+    }
+
+    return rows.sort((a, b) => b.total - a.total);
+  }, [data, expenseDataForYear, expenseCategoryKeys, expenseColors]);
 
   if (loading) {
     return (
@@ -188,7 +198,7 @@ export default function ReportPage() {
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h1 className="text-3xl font-bold">Business Report</h1>
-          <p className="text-sm text-gray-400 mt-1">Revenue, profit & expenses timeline</p>
+          <p className="text-sm text-gray-400 mt-1">Revenue, pallet costs, expenses & profit timeline</p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           {(["all", ...years] as ("all" | number)[]).map(y => (
@@ -320,7 +330,7 @@ export default function ReportPage() {
       {/* ── Cost Breakdown: Pallets + Expense Categories ── */}
       <Card className="bg-gray-900 border-gray-800">
         <CardHeader>
-          <CardTitle className="text-base">Cost Breakdown — Pallets + Expense Categories</CardTitle>
+          <CardTitle className="text-base">Cost Breakdown — Pallet Costs + Expense Categories</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
           <ResponsiveContainer width="100%" height={280}>
@@ -344,17 +354,17 @@ export default function ReportPage() {
             </BarChart>
           </ResponsiveContainer>
 
-          {expenseTotalsForYear.length > 0 && (
+          {costComponentTotalsForYear.length > 0 && (
             <div className="overflow-x-auto rounded-lg border border-gray-800">
               <table className="w-full text-xs">
                 <thead>
                   <tr className="border-b border-gray-800 bg-gray-900">
-                    <th className="px-3 py-2 text-left text-gray-400 font-semibold">Expense Category</th>
-                    <th className="px-3 py-2 text-right text-gray-400 font-semibold">Total</th>
+                    <th className="px-3 py-2 text-left text-gray-400 font-semibold">Cost Component</th>
+                    <th className="px-3 py-2 text-right text-gray-400 font-semibold">Total Cost</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {expenseTotalsForYear.map((row) => (
+                  {costComponentTotalsForYear.map((row) => (
                     <tr key={row.category} className="border-b border-gray-800/40 hover:bg-gray-800/30">
                       <td className="px-3 py-2 text-gray-200 flex items-center gap-2">
                         <span className="inline-block w-2.5 h-2.5 rounded-full" style={{ background: row.color }} />
