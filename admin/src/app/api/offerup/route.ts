@@ -108,6 +108,12 @@ type ScrapedProfile = Partial<{
   raw: unknown;
 }>;
 
+type ApolloEntity = Record<string, unknown> & {
+  __typename?: unknown;
+  id?: unknown;
+  userId?: unknown;
+};
+
 const PROFILE_DEFAULTS = {
   name: "Flips N Bidz",
   url: OFFERUP_PROFILE_URL,
@@ -163,72 +169,209 @@ function num(v: unknown): number | undefined {
   return undefined;
 }
 
-// Walk apolloState to find a "User"-typed entity for the profile owner, then
-// pluck likely fields. OfferUp's schema has shifted over time, so be defensive.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function extractProfileFromApollo(apolloState: Record<string, any>): ScrapedProfile {
+function formatJoined(joinedRaw: unknown): string | undefined {
+  if (!joinedRaw) return undefined;
+  const d = new Date(String(joinedRaw));
+  return isNaN(d.getTime())
+    ? String(joinedRaw)
+    : d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
+}
+
+function mergeProfiles(base: ScrapedProfile, extra: ScrapedProfile): ScrapedProfile {
+  const merged: ScrapedProfile = { ...base };
+  for (const [k, v] of Object.entries(extra)) {
+    if (v === undefined || v === null) continue;
+    if (typeof v === "object" && !Array.isArray(v)) {
+      merged[k as keyof ScrapedProfile] = {
+        ...((merged[k as keyof ScrapedProfile] as object) || {}),
+        ...v,
+      } as never;
+    } else {
+      merged[k as keyof ScrapedProfile] = v as never;
+    }
+  }
+  return merged;
+}
+
+function hasMeaningfulProfileStats(profile: ScrapedProfile): boolean {
+  return Boolean(
+    profile.rating !== undefined ||
+    profile.reviews !== undefined ||
+    profile.sold !== undefined ||
+    profile.followers !== undefined ||
+    profile.compliments?.itemAsDescribed !== undefined ||
+    profile.compliments?.friendly !== undefined ||
+    profile.compliments?.onTime !== undefined ||
+    profile.compliments?.reliable !== undefined ||
+    profile.compliments?.communicative !== undefined
+  );
+}
+
+function extractApolloStateFromHtml(html: string): Record<string, unknown> | null {
+  const nextDataMatch = html.match(/<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/);
+  if (!nextDataMatch) return null;
+  try {
+    const nextData = JSON.parse(nextDataMatch[1]);
+    return nextData?.props?.pageProps?.initialApolloState || null;
+  } catch {
+    return null;
+  }
+}
+
+function extractProfileFromText(text: string): ScrapedProfile {
   const profile: ScrapedProfile = {};
+  const compact = text.replace(/\u00a0/g, " ");
+
+  const joined = compact.match(/Joined\s+([A-Z][a-z]{2}\s+\d{4})/);
+  if (joined) profile.joined = joined[1];
+
+  const location = compact.match(/Joined\s+[A-Z][a-z]{2}\s+\d{4}\s+([A-Za-z][A-Za-z0-9 ./'’\-]+,\s*[A-Z]{2})/);
+  if (location) profile.location = location[1];
+
+  const reviews = compact.match(/\((\d+)\)\s*offer up reviews/i);
+  if (reviews) profile.reviews = Number(reviews[1]);
+
+  const stats = compact.match(/Seller statistics\s+(\d+)\s+Bought\s+(\d+)\s+Sold\s+(\d+)\s+Followers/i);
+  if (stats) {
+    profile.sold = Number(stats[2]);
+    profile.followers = Number(stats[3]);
+  }
+
+  const compliments = {
+    itemAsDescribed: compact.match(/(\d+)\s+Item as described/i),
+    friendly: compact.match(/(\d+)\s+Friendly/i),
+    onTime: compact.match(/(\d+)\s+On time/i),
+    reliable: compact.match(/(\d+)\s+Reliable/i),
+    communicative: compact.match(/(\d+)\s+Communicative/i),
+  };
+
+  profile.compliments = {
+    itemAsDescribed: compliments.itemAsDescribed ? Number(compliments.itemAsDescribed[1]) : undefined,
+    friendly: compliments.friendly ? Number(compliments.friendly[1]) : undefined,
+    onTime: compliments.onTime ? Number(compliments.onTime[1]) : undefined,
+    reliable: compliments.reliable ? Number(compliments.reliable[1]) : undefined,
+    communicative: compliments.communicative ? Number(compliments.communicative[1]) : undefined,
+  };
+
+  return profile;
+}
+
+async function scrapeProfileWithBrowser(): Promise<ScrapedProfile> {
+  let browser: { close: () => Promise<void> } | null = null;
+  try {
+    const { chromium } = await import("playwright");
+    browser = await chromium.launch({ headless: true });
+    const page = await browser.newPage({
+      userAgent: GQL_HEADERS["User-Agent"],
+      viewport: { width: 1440, height: 1400 },
+    });
+    await page.goto(OFFERUP_PROFILE_URL, { waitUntil: "domcontentloaded", timeout: 60000 });
+    await page.waitForTimeout(6000);
+
+    const html = await page.content();
+    const text = await page.evaluate(() => document.body.innerText || "");
+
+    let profile: ScrapedProfile = extractProfileFromText(text);
+    const apolloState = extractApolloStateFromHtml(html);
+    if (apolloState) {
+      profile = mergeProfiles(profile, extractProfileFromApollo(apolloState));
+    }
+
+    return profile;
+  } catch {
+    return {};
+  } finally {
+    if (browser) await browser.close();
+  }
+}
+
+// Walk apolloState to find the OfferUp profile entity, then pluck likely fields.
+function extractProfileFromApollo(apolloState: Record<string, unknown>): ScrapedProfile {
+  const profile: ScrapedProfile = {};
+  const state = apolloState as Record<string, ApolloEntity>;
   if (!apolloState) return profile;
 
   const userKey =
-    Object.keys(apolloState).find((k) => k === `User:${OFFERUP_USER_ID}`) ||
-    Object.keys(apolloState).find(
-      (k) => apolloState[k]?.__typename === "User" && String(apolloState[k]?.id) === OFFERUP_USER_ID
+    Object.keys(state).find((k) => k === `UserProfile:${OFFERUP_USER_ID}`) ||
+    Object.keys(state).find(
+      (k) => state[k]?.__typename === "UserProfile" && String(state[k]?.userId ?? state[k]?.id) === OFFERUP_USER_ID
     ) ||
-    Object.keys(apolloState).find((k) => apolloState[k]?.__typename === "User");
+    Object.keys(state).find((k) => k === `User:${OFFERUP_USER_ID}`) ||
+    Object.keys(state).find(
+      (k) => state[k]?.__typename === "User" && String(state[k]?.id) === OFFERUP_USER_ID
+    ) ||
+    Object.keys(state).find((k) => ["UserProfile", "User"].includes(String(state[k]?.__typename ?? "")));
 
-  const user = userKey ? apolloState[userKey] : null;
+  const user = userKey ? state[userKey] : null;
   if (!user) return profile;
   profile.raw = user;
 
   if (typeof user.name === "string") profile.name = user.name;
   if (typeof user.displayName === "string" && !profile.name) profile.name = user.displayName;
-  if (typeof user.location === "string") profile.location = user.location;
+  if (typeof user.publicLocationName === "string") profile.location = user.publicLocationName;
+  if (typeof user.location === "string" && !profile.location) profile.location = user.location;
   if (typeof user.locationName === "string" && !profile.location) profile.location = user.locationName;
 
-  // Joined date: could be string, ISO, or epoch
-  const joinedRaw = user.dateJoined ?? user.joinedDate ?? user.memberSince ?? user.createdAt;
-  if (joinedRaw) {
-    const d = new Date(joinedRaw);
-    profile.joined = isNaN(d.getTime())
-      ? String(joinedRaw)
-      : d.toLocaleDateString("en-US", { month: "short", year: "numeric" });
-  }
+  const joined = formatJoined(user.dateJoined ?? user.joinedDate ?? user.memberSince ?? user.createdAt);
+  if (joined) profile.joined = joined;
 
-  // Rating + reviews: may be nested under `rating`, `ratings`, or flat
-  const ratingObj = user.rating ?? user.ratings ?? user.sellerRating ?? null;
-  profile.rating =
-    num(ratingObj?.average) ?? num(ratingObj?.value) ?? num(user.averageRating) ?? num(user.rating);
-  profile.reviews =
-    num(ratingObj?.count) ?? num(user.reviewCount) ?? num(user.reviewsCount) ?? num(user.numReviews);
-
-  profile.sold =
+  const ratingObj = user.ratingSummary ?? user.rating ?? user.ratings ?? user.sellerRating ?? null;
+  const rating = num(ratingObj?.average) ?? num(ratingObj?.value) ?? num(user.averageRating) ?? num(user.rating);
+  const reviews = num(ratingObj?.count) ?? num(user.reviewCount) ?? num(user.reviewsCount) ?? num(user.numReviews);
+  const sold =
     num(user.itemsSold) ??
     num(user.soldCount) ??
     num(user.transactionCounts?.sold) ??
     num(user.stats?.itemsSold);
-  profile.followers =
-    num(user.followerCount) ?? num(user.followersCount) ?? num(user.numFollowers);
+  const followers =
+    num(user.followers) ?? num(user.followerCount) ?? num(user.followersCount) ?? num(user.numFollowers);
 
-  const c = user.compliments || user.sellerCompliments || {};
-  profile.compliments = {
-    itemAsDescribed: num(c.itemAsDescribed) ?? 0,
-    friendly: num(c.friendly) ?? 0,
-    onTime: num(c.onTime) ?? num(c.punctual) ?? 0,
-    reliable: num(c.reliable) ?? 0,
-    communicative: num(c.communicative) ?? num(c.responsive) ?? 0,
-  };
+  if (rating !== undefined) profile.rating = rating;
+  if (reviews !== undefined) profile.reviews = reviews;
+  if (sold !== undefined) profile.sold = sold;
+  if (followers !== undefined) profile.followers = followers;
+
+  const ratingAttributes = Array.isArray(user.ratingAttributes) ? user.ratingAttributes : [];
+  if (ratingAttributes.length > 0) {
+    const compliments: NonNullable<ScrapedProfile["compliments"]> = {};
+    for (const attr of ratingAttributes) {
+      const label = String(attr?.value ?? attr?.label ?? "").toLowerCase();
+      const count = num(attr?.count);
+      if (count === undefined) continue;
+      if (label.includes("item as described")) compliments.itemAsDescribed = count;
+      else if (label.includes("friendly")) compliments.friendly = count;
+      else if (label.includes("on time")) compliments.onTime = count;
+      else if (label.includes("reliable")) compliments.reliable = count;
+      else if (label.includes("communicative")) compliments.communicative = count;
+    }
+    profile.compliments = compliments;
+  } else {
+    const c = user.compliments || user.sellerCompliments || {};
+    const compliments: NonNullable<ScrapedProfile["compliments"]> = {};
+    const itemAsDescribed = num(c.itemAsDescribed);
+    const friendly = num(c.friendly);
+    const onTime = num(c.onTime) ?? num(c.punctual);
+    const reliable = num(c.reliable);
+    const communicative = num(c.communicative) ?? num(c.responsive);
+    if (itemAsDescribed !== undefined) compliments.itemAsDescribed = itemAsDescribed;
+    if (friendly !== undefined) compliments.friendly = friendly;
+    if (onTime !== undefined) compliments.onTime = onTime;
+    if (reliable !== undefined) compliments.reliable = reliable;
+    if (communicative !== undefined) compliments.communicative = communicative;
+    profile.compliments = compliments;
+  }
 
   profile.url = OFFERUP_PROFILE_URL;
   return profile;
 }
 
-// Scrape all listings + profile: page 1 from __NEXT_DATA__, then paginate via GraphQL
+// Scrape all listings + profile: page 1 from __NEXT_DATA__, then paginate via GraphQL.
+// If lightweight HTML parsing misses profile metrics, fall back to a browser-level scrape.
 async function scrapeOfferUp(): Promise<{ listings: ScrapedListing[]; profile: ScrapedProfile; source: string }> {
-  // Fetch the profile page for __NEXT_DATA__ (page 1 + initial cursor)
   let firstPageListings: ScrapedListing[] = [];
   let pageCursor: string | null = null;
   let scrapedProfile: ScrapedProfile = {};
+  const sourceParts = new Set<string>();
 
   try {
     const res = await fetch(OFFERUP_PROFILE_URL, {
@@ -239,26 +382,32 @@ async function scrapeOfferUp(): Promise<{ listings: ScrapedListing[]; profile: S
       },
     });
     const html = await res.text();
-    const nextDataMatch = html.match(/<script id="__NEXT_DATA__" type="application\/json">([\s\S]*?)<\/script>/);
-    if (nextDataMatch) {
-      const nextData = JSON.parse(nextDataMatch[1]);
-      const apolloState = nextData?.props?.pageProps?.initialApolloState;
-      if (apolloState) {
-        scrapedProfile = extractProfileFromApollo(apolloState);
-        const rootQuery = apolloState["ROOT_QUERY"];
-        const listingsKey = rootQuery ? Object.keys(rootQuery).find((k) => k.startsWith("userListings")) : null;
-        if (listingsKey) {
-          const entry = rootQuery[listingsKey];
-          firstPageListings = (entry?.listings || []) as ScrapedListing[];
-          pageCursor = entry?.pageCursor || null;
-        }
+    const apolloState = extractApolloStateFromHtml(html);
+    if (apolloState) {
+      scrapedProfile = extractProfileFromApollo(apolloState);
+      const rootQuery = (apolloState as Record<string, unknown>)["ROOT_QUERY"] as Record<string, unknown> | undefined;
+      const listingsKey = rootQuery ? Object.keys(rootQuery).find((k) => k.startsWith("userListings")) : null;
+      if (listingsKey) {
+        const entry = rootQuery[listingsKey] as { listings?: ScrapedListing[]; pageCursor?: string | null } | undefined;
+        firstPageListings = (entry?.listings || []) as ScrapedListing[];
+        pageCursor = entry?.pageCursor || null;
       }
+      sourceParts.add("next-data");
     }
-  } catch { /* fall through to GQL-only */ }
+  } catch {
+    /* fall through */
+  }
 
-  // Paginate via GraphQL to get remaining listings
+  if (!hasMeaningfulProfileStats(scrapedProfile)) {
+    const browserProfile = await scrapeProfileWithBrowser();
+    if (Object.keys(browserProfile).length > 0) {
+      scrapedProfile = mergeProfiles(scrapedProfile, browserProfile);
+      sourceParts.add("browser-profile");
+    }
+  }
+
   const allListings = [...firstPageListings];
-  const seenIds = new Set(allListings.map(l => l.id));
+  const seenIds = new Set(allListings.map((l) => l.id));
   let cursor = pageCursor;
   let pages = 0;
   while (cursor && pages < 10) {
@@ -271,13 +420,20 @@ async function scrapeOfferUp(): Promise<{ listings: ScrapedListing[]; profile: S
         newCount++;
       }
     }
-    // Stop if no new unique listings were found (OfferUp recycles the cursor)
     if (newCount === 0) break;
     cursor = page.nextCursor;
     pages++;
   }
 
-  return { listings: allListings, profile: scrapedProfile, source: allListings.length > 0 ? "next-data+gql" : "none" };
+  if (allListings.length > 0) {
+    sourceParts.add("gql");
+  }
+
+  return {
+    listings: allListings,
+    profile: scrapedProfile,
+    source: sourceParts.size > 0 ? Array.from(sourceParts).join("+") : "none",
+  };
 }
 
 // Merge scraped fields onto existing/cached profile so blank fields don't overwrite good ones.
