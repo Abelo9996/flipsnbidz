@@ -46,6 +46,7 @@ import {
   AreaChart,
   Area,
   ReferenceLine,
+  ComposedChart,
 } from "recharts";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -270,9 +271,9 @@ export default function AnalyticsPage() {
 
       {/* Overview Stats */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <StatCard title="Total Listings" value={o?.totalListings ?? 0} icon={Gavel} color="text-blue-400" subtitle={`${o?.activeAuctions ?? 0} active`} />
-        <StatCard title="Email Subscribers" value={o?.subscribers ?? 0} icon={Users} color="text-purple-400" subtitle={`+${o?.subscribersThisPeriod ?? 0} this period`} trend={o?.subscribersThisPeriod ? "up" : "neutral"} />
-        <StatCard title="Social Posts" value={(o?.totalPostsDraft ?? 0) + (o?.totalPostsPublished ?? 0)} icon={Share2} color="text-pink-400" subtitle={`${o?.totalPostsPublished ?? 0} published, ${o?.scheduledPosts ?? 0} scheduled`} />
+        <StatCard title="Total Listings" value={o?.totalListings ?? 0} icon={Gavel} color="text-blue-400" subtitle={`${o?.activeAuctions ?? 0} active on HiBid`} />
+        <StatCard title="Email Subscribers" value={o?.subscribers ?? 0} icon={Users} color="text-purple-400" subtitle={`+${o?.subscribersThisPeriod ?? 0} active this period`} trend={o?.subscribersThisPeriod ? "up" : "neutral"} />
+        <StatCard title="Social Posts" value={(o?.totalPostsDraft ?? 0) + (o?.totalPostsPublished ?? 0) + (o?.scheduledPosts ?? 0)} icon={Share2} color="text-pink-400" subtitle={`${o?.totalPostsPublished ?? 0} published, ${o?.scheduledPosts ?? 0} scheduled`} />
         <StatCard title="SEO Articles" value={(o?.seoArticlesDraft ?? 0) + (o?.seoArticlesPublished ?? 0)} icon={FileText} color="text-green-400" subtitle={`${o?.seoArticlesPublished ?? 0} published`} />
       </div>
 
@@ -563,7 +564,7 @@ export default function AnalyticsPage() {
           <CardContent>
             {data?.timelines.auctions.length ? (
               <ResponsiveContainer width="100%" height={280}>
-                <AreaChart data={data.timelines.auctions}>
+                <ComposedChart data={data.timelines.auctions}>
                   <defs>
                     <linearGradient id="auctionGrad" x1="0" y1="0" x2="0" y2="1">
                       <stop offset="5%" stopColor="#2563eb" stopOpacity={0.3} />
@@ -574,9 +575,10 @@ export default function AnalyticsPage() {
                   <XAxis dataKey="date" tick={{ fill: "#9ca3af", fontSize: 11 }} tickFormatter={(v) => new Date(v).toLocaleDateString("en-US", { month: "short", day: "numeric" })} />
                   <YAxis tick={{ fill: "#9ca3af", fontSize: 11 }} />
                   <Tooltip content={<CustomTooltip />} />
+                  <Legend formatter={(v: string) => <span className="text-gray-300 text-sm">{v}</span>} />
                   <Area type="monotone" dataKey="lots" stroke="#2563eb" fill="url(#auctionGrad)" strokeWidth={2} name="Lots" />
                   <Line type="monotone" dataKey="totalBids" stroke="#7c3aed" strokeWidth={2} dot={false} name="Bids" />
-                </AreaChart>
+                </ComposedChart>
               </ResponsiveContainer>
             ) : (
               <div className="flex items-center justify-center h-64 text-gray-500">

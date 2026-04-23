@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
       AuctionLot.countDocuments({ status: "active", source: "hibid" }),
       AuctionLot.countDocuments(),
       Subscriber.countDocuments({ status: "active" }),
-      Subscriber.countDocuments({ subscribedAt: { $gte: since } }),
+      Subscriber.countDocuments({ subscribedAt: { $gte: since }, status: "active" }),
       SocialPost.countDocuments({ status: "scheduled" }),
       SocialPost.countDocuments({ status: "draft" }),
       SocialPost.countDocuments({ status: "published" }),

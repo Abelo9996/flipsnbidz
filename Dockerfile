@@ -28,7 +28,10 @@ RUN apt-get update && apt-get install -y \
     libfontconfig1 \
     fonts-liberation \
     wget \
-    && rm -rf /var/lib/apt/lists/*
+    python3 \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/* \
+    && pip3 install --no-cache-dir --break-system-packages requests
 
 # Install root dependencies
 COPY package*.json ./
