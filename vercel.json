@@ -28,6 +28,14 @@
   ],
   "routes": [
     {
+      "src": "/admin",
+      "dest": "https://flipsnbidz-production.up.railway.app/admin"
+    },
+    {
+      "src": "/admin/(.*)",
+      "dest": "https://flipsnbidz-production.up.railway.app/admin/$1"
+    },
+    {
       "src": "/api/(.*)",
       "dest": "/api/index.js"
     },
