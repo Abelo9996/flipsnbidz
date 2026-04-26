@@ -19,6 +19,7 @@ import sys
 import os
 import json
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 # ── CONFIG ──────────────────────────────────────────────────────────────────
 BREVO_API_KEY = os.environ.get("BREVO_API_KEY")
@@ -39,7 +40,7 @@ AUCTION_URL = os.environ.get("AUCTION_URL", "https://flipsandbidz.hibid.com")
 
 def get_evening_phrase() -> str:
     # Sunday -> "this evening"; other days -> "Sunday evening"
-    return "this evening" if datetime.now().strftime("%A") == "Sunday" else "Sunday evening"
+    return "this evening" if datetime.now(ZoneInfo("America/Los_Angeles")).strftime("%A") == "Sunday" else "Sunday evening"
 
 EVENING_PHRASE = get_evening_phrase()
 SUBJECT = f"Reminder: Auction Ends {EVENING_PHRASE.title()} at 6 PM"
