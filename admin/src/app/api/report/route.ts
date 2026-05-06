@@ -6,6 +6,8 @@ const MONTH_ABBR = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct",
 const MONTH_MAP: Record<string, number> = {
   january:1, february:2, march:3, april:4, may:5, june:6,
   july:7, august:8, september:9, october:10, november:11, december:12,
+  jan:1, feb:2, mar:3, apr:4, jun:6,
+  jul:7, aug:8, sep:9, oct:10, nov:11, dec:12,
 };
 
 // Sheet gids for the /export endpoint (includes ALL rows, even collapsed/grouped)
@@ -132,7 +134,8 @@ export async function GET() {
           year = 2000 + parseInt(idMatch[1]);
         }
 
-        const month = MONTH_MAP[dateVal.toLowerCase()] ?? 0;
+        const monthWord = dateVal.toLowerCase().split(/[\s,\/\-]+/)[0];
+        const month = MONTH_MAP[monthWord] ?? MONTH_MAP[dateVal.toLowerCase()] ?? 0;
         if (!month) continue;
 
         profitRows.push({
@@ -228,5 +231,11 @@ export async function GET() {
   });
 
   timeline.sort((a, b) => a.key.localeCompare(b.key));
-  return NextResponse.json({ timeline });
+
+  // Strip months beyond the current month (pre-entered future rows in the sheet)
+  const now = new Date();
+  const currentKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  const capped = timeline.filter(m => m.key <= currentKey);
+
+  return NextResponse.json({ timeline: capped });
 }

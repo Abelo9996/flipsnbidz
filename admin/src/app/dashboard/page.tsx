@@ -135,7 +135,7 @@ export default function DashboardPage() {
       ? ((thisMonth.totalRevenue - lastMonth.totalRevenue) / lastMonth.totalRevenue) * 100
       : null;
 
-  const sparkData = completeMonths.slice(-6);
+  const sparkData = report.slice(-6);
   const recentMonths = report.slice(-3).reverse();
 
   return (

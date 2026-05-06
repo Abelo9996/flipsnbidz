@@ -30,7 +30,11 @@ const businessHours = {
         '2026-02-25',
         '2026-02-26'
     ], // Specific dates that are closed
-    openExceptions: ['2025-12-23'] // Special dates that are open even if normally closed (like Tuesday Dec 23)
+    openExceptions: ['2025-12-23'], // Special dates that are open even if normally closed (like Tuesday Dec 23)
+    blockedSlots: {
+        // Partial-day blocks: key is YYYY-MM-DD, value is { start, end } in 24-hour hours (end is exclusive)
+        '2026-05-07': { start: 10, end: 12 } // Thu May 7: 10 AM – 12 PM unavailable
+    }
 };
 
 // Initialize calendar
@@ -174,27 +178,35 @@ async function renderTimeSlots(date) {
     const dayOfWeek = date.getDay();
     const startHour = (dayOfWeek === 0 || dayOfWeek === 6) ? businessHours.weekendStart : businessHours.start;
 
+    // Check for partial-day blocks on this specific date
+    const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+    const partialBlock = businessHours.blockedSlots && businessHours.blockedSlots[dateKey];
+
     for (let hour = startHour; hour < businessHours.end; hour++) {
         for (let minutes = 0; minutes < 60; minutes += 15) {
             const timeSlot = document.createElement('div');
             timeSlot.className = 'time-slot';
-            
+
             const displayHour = hour > 12 ? hour - 12 : hour;
             const ampm = hour >= 12 ? 'PM' : 'AM';
             const displayMinutes = minutes.toString().padStart(2, '0');
             const timeString = `${displayHour}:${displayMinutes} ${ampm}`;
-            
+
             timeSlot.textContent = timeString;
             timeSlot.dataset.time = `${hour}:${displayMinutes}`;
-            
+
             // Check if this slot is already booked in database
-            if (bookedTimeSlots.includes(timeString)) {
+            const isBooked = bookedTimeSlots.includes(timeString);
+            // Check if this slot falls within a partial-day block
+            const isPartiallyBlocked = partialBlock && hour >= partialBlock.start && hour < partialBlock.end;
+
+            if (isBooked || isPartiallyBlocked) {
                 timeSlot.classList.add('unavailable');
                 timeSlot.title = 'This time slot is already booked';
             } else {
                 timeSlot.addEventListener('click', () => selectTime(timeString, timeSlot));
             }
-            
+
             timeSlotsContainer.appendChild(timeSlot);
         }
     }
